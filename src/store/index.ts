@@ -1,6 +1,7 @@
+import { atom } from "jotai";
 import { BlockValuesObject, BlocksObjectWithId } from "~/types";
 import { atomWithImmer } from "jotai/immer";
-import { generateBlockData } from "~/utils";
+import { generateBlockData, GenerateMarkdown } from "~/utils";
 
 const { nextId, inActiveBlocks, blockValues, defaultBlocks } =
   generateBlockData();
@@ -11,3 +12,11 @@ export const nextIdAtom = atomWithImmer<Number>(nextId);
 export const blockValuesAtom = atomWithImmer<BlockValuesObject>(blockValues);
 export const defaultBlocksAtom =
   atomWithImmer<BlocksObjectWithId>(defaultBlocks);
+
+export const markdownAtom = atom((get) => {
+  const blockIds = get(activeBlocksAtom);
+  const blocks = get(defaultBlocksAtom);
+  const blockValues = get(blockValuesAtom);
+  const markdown = GenerateMarkdown({ blockIds, blocks, blockValues });
+  return markdown;
+});
