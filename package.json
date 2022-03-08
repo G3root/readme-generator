@@ -14,6 +14,7 @@
     "@dnd-kit/sortable": "^6.0.0",
     "@headlessui/react": "^1.5.0",
     "class-variance-authority": "^0.1.0",
+    "copy-text-to-clipboard": "^3.0.1",
     "hast": "^1.0.0",
     "immer": "^9.0.12",
     "jotai": "^1.6.0",
