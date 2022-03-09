@@ -6,3 +6,4 @@ export * from "./Select";
 export * from "./FormControl";
 export * from "./VisuallyHidden";
 export * from "./ButtonGroup";
+export * from "./ToolTip";
