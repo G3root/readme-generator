@@ -3,13 +3,10 @@ import { TextInputStyleProps, textInputStyles } from "./styles";
 
 export interface ITextInputProps extends TextInputStyleProps {}
 
-export function TextInput({
-  variant,
-  className,
-  size,
-  scheme,
-  ...rest
-}: ITextInputProps) {
+function TextInputInner(
+  { variant, className, size, scheme, ...rest }: ITextInputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+) {
   return (
     <input
       className={textInputStyles({
@@ -18,7 +15,10 @@ export function TextInput({
         scheme,
         class: className,
       })}
+      ref={ref}
       {...rest}
     />
   );
 }
+
+export const TextInput = React.forwardRef(TextInputInner);

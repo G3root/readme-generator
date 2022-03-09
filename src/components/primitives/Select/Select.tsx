@@ -4,14 +4,10 @@ export interface ISelectProps extends SelectInputStyleProps {
   children: React.ReactNode;
 }
 
-export function Select({
-  variant,
-  className,
-  size,
-  scheme,
-  children,
-  ...rest
-}: ISelectProps) {
+function SelectInner(
+  { variant, className, size, scheme, children, ...rest }: ISelectProps,
+  ref: React.ForwardedRef<HTMLSelectElement>
+) {
   return (
     <select
       className={selectInputStyles({
@@ -21,8 +17,11 @@ export function Select({
         class: className,
       })}
       {...rest}
+      ref={ref}
     >
       {children}
     </select>
   );
 }
+
+export const Select = React.forwardRef(SelectInner);
