@@ -25,6 +25,7 @@
     "pupa": "^3.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.27.1",
     "react-icons": "^4.3.1",
     "react-markdown": "^8.0.0",
     "rehype-attr": "^2.0.8",
