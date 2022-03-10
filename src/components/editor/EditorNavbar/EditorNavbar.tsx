@@ -1,6 +1,6 @@
-import * as React from "react";
-import { NavbarLogo, ThemeSwitcher } from "~/components/common";
-import { ActionButtons } from "~/components/editor";
+import * as React from 'react'
+import { NavbarLogo, ThemeSwitcher } from '~/components/common'
+import { ActionButtons } from '~/components/editor'
 
 export interface IEditorNavbarProps {}
 
@@ -13,10 +13,7 @@ export function EditorNavbar(props: IEditorNavbarProps) {
             className="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]"
             data-tip="Menu"
           >
-            <label
-              htmlFor="drawer"
-              className="btn btn-ghost btn-square drawer-button lg:hidden"
-            >
+            <label htmlFor="drawer" className="btn btn-ghost btn-square drawer-button lg:hidden">
               <svg
                 width={20}
                 height={20}
@@ -46,5 +43,5 @@ export function EditorNavbar(props: IEditorNavbarProps) {
         </div>
       </nav>
     </div>
-  );
+  )
 }

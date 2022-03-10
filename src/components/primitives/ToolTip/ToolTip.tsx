@@ -1,8 +1,8 @@
-import * as React from "react";
-import { toolTipStyles, ToolTipStyleProps } from "./styles";
+import * as React from 'react'
+import { toolTipStyles, ToolTipStyleProps } from './styles'
 
 export interface IToolTipProps extends ToolTipStyleProps {
-  value: string;
+  value: string
 }
 
 export function ToolTip({
@@ -27,5 +27,5 @@ export function ToolTip({
     >
       {children}
     </div>
-  );
+  )
 }

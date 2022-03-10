@@ -1,101 +1,89 @@
-import * as React from "react";
-import {
-  FiX,
-  FiArrowDown,
-  FiArrowUp,
-  FiRefreshCw,
-  FiChevronUp,
-} from "react-icons/fi";
-import { VscGripper } from "react-icons/vsc";
-import { IconButton, ToolTip } from "~/components/primitives";
-import { Disclosure } from "@headlessui/react";
-import { clsx } from "~/utils";
-import { useSortable, arrayMove } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { useAtomValue } from "jotai";
-import { useUpdateAtom, useAtomCallback, selectAtom } from "jotai/utils";
-import {
-  activeBlocksAtom,
-  blockValuesAtom,
-  defaultBlocksAtom,
-  inActiveBlocksAtom,
-} from "~/store";
-import { BlockType } from "~/types";
-import { CardEditableContent } from "./CardEditableContent";
+import * as React from 'react'
+import { FiX, FiArrowDown, FiArrowUp, FiRefreshCw, FiChevronUp } from 'react-icons/fi'
+import { VscGripper } from 'react-icons/vsc'
+import { IconButton, ToolTip } from '~/components/primitives'
+import { Disclosure } from '@headlessui/react'
+import { clsx } from '~/utils'
+import { useSortable, arrayMove } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom, useAtomCallback, selectAtom } from 'jotai/utils'
+import { activeBlocksAtom, blockValuesAtom, defaultBlocksAtom, inActiveBlocksAtom } from '~/store'
+import { BlockType } from '~/types'
+import { CardEditableContent } from './CardEditableContent'
 
 export interface IDraggableCardProps {
-  id: string;
-  positon: number;
+  id: string
+  positon: number
 }
 
 export function DraggableCard({ id, positon }: IDraggableCardProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
   const nameAtom = selectAtom(
     defaultBlocksAtom,
     React.useCallback((block) => block[id].name, [id])
-  );
-  const name = useAtomValue(nameAtom);
-  const updateActiveBlock = useUpdateAtom(activeBlocksAtom);
-  const updateInactiveBlock = useUpdateAtom(inActiveBlocksAtom);
-  const updateBlockValues = useUpdateAtom(blockValuesAtom);
+  )
+  const name = useAtomValue(nameAtom)
+  const updateActiveBlock = useUpdateAtom(activeBlocksAtom)
+  const updateInactiveBlock = useUpdateAtom(inActiveBlocksAtom)
+  const updateBlockValues = useUpdateAtom(blockValuesAtom)
   const defaultBlocks = useAtomCallback(
     React.useCallback((get) => {
-      const blocks = get(defaultBlocksAtom);
-      return blocks;
+      const blocks = get(defaultBlocksAtom)
+      return blocks
     }, [])
-  );
+  )
 
   const handleRemove = () => {
     updateActiveBlock((draft) => {
-      const index = draft.findIndex((item) => item === id);
+      const index = draft.findIndex((item) => item === id)
       if (index !== -1) {
         updateInactiveBlock((inActiveDraft) => {
-          const inactiveItems = inActiveDraft;
-          inactiveItems.unshift(id);
-          return (inActiveDraft = inactiveItems);
-        });
-        const items = draft;
-        items.splice(index, 1);
-        return (draft = items);
+          const inactiveItems = inActiveDraft
+          inactiveItems.unshift(id)
+          return (inActiveDraft = inactiveItems)
+        })
+        const items = draft
+        items.splice(index, 1)
+        return (draft = items)
       }
-    });
-  };
+    })
+  }
   const handleUp = () => {
     updateActiveBlock((draft) => {
-      const items = arrayMove(draft, positon, positon - 1);
-      return (draft = items);
-    });
-  };
+      const items = arrayMove(draft, positon, positon - 1)
+      return (draft = items)
+    })
+  }
   const handleDown = () => {
     updateActiveBlock((draft) => {
-      const items = arrayMove(draft, positon, positon + 1);
-      return (draft = items);
-    });
-  };
+      const items = arrayMove(draft, positon, positon + 1)
+      return (draft = items)
+    })
+  }
   const handleReset = async () => {
-    const blocks = await defaultBlocks();
+    const blocks = await defaultBlocks()
     updateBlockValues((draft) => {
-      const items = draft;
-      const element = items[id];
-      const markdown = blocks[id];
-      const single = BlockType.Single;
-      const multiple = BlockType.Multiple;
+      const items = draft
+      const element = items[id]
+      const markdown = blocks[id]
+      const single = BlockType.Single
+      const multiple = BlockType.Multiple
       if (element.type === single && markdown.type === single) {
-        element.markdown = markdown.markdown;
+        element.markdown = markdown.markdown
       } else if (element.type === multiple && markdown.type === multiple) {
         element.snippets = markdown.snippets.filter(({ name, isActive }) => ({
           name,
           isActive,
-        }));
+        }))
       }
-      return (draft = items);
-    });
-  };
+      return (draft = items)
+    })
+  }
 
   return (
     <li ref={setNodeRef} style={style} {...attributes}>
@@ -169,8 +157,8 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
                   <span>Show editable content</span>
                   <FiChevronUp
                     className={clsx(
-                      "h-5 w-5 transition delay-75 ease-in-out",
-                      open && "rotate-180 transform"
+                      'h-5 w-5 transition delay-75 ease-in-out',
+                      open && 'rotate-180 transform'
                     )}
                   />
                 </Disclosure.Button>
@@ -183,5 +171,5 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
         </div>
       </div>
     </li>
-  );
+  )
 }

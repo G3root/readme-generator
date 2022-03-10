@@ -1,2 +1,2 @@
-export * from "./ThemeSwitcher";
-export * from "./NavbarLogo";
+export * from './ThemeSwitcher'
+export * from './NavbarLogo'

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { NavbarLogo, ThemeSwitcher } from "~/components/common";
-import Link from "next/link";
+import * as React from 'react'
+import { NavbarLogo, ThemeSwitcher } from '~/components/common'
+import Link from 'next/link'
 
 export interface IHomeNavbarProps {}
 
@@ -20,5 +20,5 @@ export function HomeNavbar(props: IHomeNavbarProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

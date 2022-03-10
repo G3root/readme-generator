@@ -1,34 +1,34 @@
-import * as React from "react";
-import { Button } from "~/components/primitives";
-import { FiDownload, FiClipboard, FiCheck } from "react-icons/fi";
-import { useClipboard } from "~/hooks";
-import { useAtomCallback } from "jotai/utils";
-import { markdownAtom } from "~/store";
+import * as React from 'react'
+import { Button } from '~/components/primitives'
+import { FiDownload, FiClipboard, FiCheck } from 'react-icons/fi'
+import { useClipboard } from '~/hooks'
+import { useAtomCallback } from 'jotai/utils'
+import { markdownAtom } from '~/store'
 export interface IActionButtonsProps {}
 
 export function ActionButtons(props: IActionButtonsProps) {
-  const { handleCopy, isCopied } = useClipboard();
+  const { handleCopy, isCopied } = useClipboard()
 
   const generateMarkdown = useAtomCallback(
     React.useCallback((get) => {
-      const markdown = get(markdownAtom);
-      return markdown;
+      const markdown = get(markdownAtom)
+      return markdown
     }, [])
-  );
+  )
 
   const onCopy = async () => {
-    const markdown = await generateMarkdown();
-    handleCopy(markdown);
-  };
+    const markdown = await generateMarkdown()
+    handleCopy(markdown)
+  }
 
   const handleDownload = async () => {
-    const markdown = await generateMarkdown();
-    const a = document.createElement("a");
-    const blob = new Blob([markdown]);
-    a.href = URL.createObjectURL(blob);
-    a.download = "README.md";
-    a.click();
-  };
+    const markdown = await generateMarkdown()
+    const a = document.createElement('a')
+    const blob = new Blob([markdown])
+    a.href = URL.createObjectURL(blob)
+    a.download = 'README.md'
+    a.click()
+  }
 
   return (
     <div className="mr-4 flex items-center space-x-2">
@@ -42,16 +42,12 @@ export function ActionButtons(props: IActionButtonsProps) {
         </span>
         Copy
       </Button>
-      <Button
-        onClick={handleDownload}
-        scheme="success"
-        className="btn-xs lg:btn-sm"
-      >
+      <Button onClick={handleDownload} scheme="success" className="btn-xs lg:btn-sm">
         <span className="mr-2">
           <FiDownload size={15} aria-hidden={true} />
         </span>
         Download
       </Button>
     </div>
-  );
+  )
 }

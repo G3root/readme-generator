@@ -1,9 +1,9 @@
-import { Category, Block, BlockType } from "~/types";
-import dedent from "ts-dedent";
+import { Category, Block, BlockType } from '~/types'
+import dedent from 'ts-dedent'
 
 export const ProjectBlockList: Block[] = [
   {
-    name: "Title and Description",
+    name: 'Title and Description',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -14,7 +14,7 @@ export const ProjectBlockList: Block[] = [
     `,
   },
   {
-    name: "Run Locally",
+    name: 'Run Locally',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -47,7 +47,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "API Reference",
+    name: 'API Reference',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -80,7 +80,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Running Tests",
+    name: 'Running Tests',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -95,7 +95,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Authors",
+    name: 'Authors',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -106,7 +106,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Badges",
+    name: 'Badges',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -121,7 +121,7 @@ export const ProjectBlockList: Block[] = [
   `,
   },
   {
-    name: "Contributing",
+    name: 'Contributing',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -136,7 +136,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Demo",
+    name: 'Demo',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -147,7 +147,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Deployment",
+    name: 'Deployment',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -162,7 +162,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Documentation",
+    name: 'Documentation',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -173,7 +173,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Environment Variables",
+    name: 'Environment Variables',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -188,7 +188,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "FAQ",
+    name: 'FAQ',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -205,7 +205,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Features",
+    name: 'Features',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -219,7 +219,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Feedback",
+    name: 'Feedback',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -230,7 +230,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Installation",
+    name: 'Installation',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -246,7 +246,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Lessons",
+    name: 'Lessons',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -257,7 +257,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "License",
+    name: 'License',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -268,7 +268,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Logo",
+    name: 'Logo',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -277,7 +277,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Optimizations",
+    name: 'Optimizations',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -288,7 +288,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Related",
+    name: 'Related',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -301,7 +301,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Roadmap",
+    name: 'Roadmap',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -313,7 +313,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Acknowledgements",
+    name: 'Acknowledgements',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -326,7 +326,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Screenshots",
+    name: 'Screenshots',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -337,7 +337,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Support",
+    name: 'Support',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -348,7 +348,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Tech Stack",
+    name: 'Tech Stack',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -361,7 +361,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Appendix",
+    name: 'Appendix',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -372,7 +372,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Usage/Examples",
+    name: 'Usage/Examples',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -389,7 +389,7 @@ export const ProjectBlockList: Block[] = [
 `,
   },
   {
-    name: "Used By",
+    name: 'Used By',
     category: Category.Project,
     type: BlockType.Single,
     markdown: dedent`
@@ -402,4 +402,4 @@ export const ProjectBlockList: Block[] = [
 
 `,
   },
-];
+]

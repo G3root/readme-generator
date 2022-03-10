@@ -1,6 +1,6 @@
 module.exports = {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "class",
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {},
   },
@@ -8,13 +8,13 @@ module.exports = {
     themes: [
       {
         light: {
-          ...require("daisyui/src/colors/themes")["[data-theme=bumblebee]"],
+          ...require('daisyui/src/colors/themes')['[data-theme=bumblebee]'],
         },
         dark: {
-          ...require("daisyui/src/colors/themes")["[data-theme=night]"],
+          ...require('daisyui/src/colors/themes')['[data-theme=night]'],
         },
       },
     ],
   },
-  plugins: [require("daisyui")],
-};
+  plugins: [require('daisyui')],
+}

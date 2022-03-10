@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
-import * as React from "react";
-import { DiGithubBadge } from "react-icons/di";
+import Link from 'next/link'
+import * as React from 'react'
+import { DiGithubBadge } from 'react-icons/di'
 
 export interface IHeroProps {}
 
@@ -14,15 +14,12 @@ export function Hero(props: IHeroProps) {
           <span className="block text-primary">with speed</span>
         </h1>
         <p className="mx-auto mt-3 max-w-md text-base  sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-          All in one tool to quickly generate a readme for your project or
-          github profile
+          All in one tool to quickly generate a readme for your project or github profile
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center space-x-0 space-y-4 sm:flex-row   sm:space-y-0 sm:space-x-2">
           <Link href="/editor">
-            <a className=" btn btn-success btn-lg w-full sm:w-auto">
-              get started
-            </a>
+            <a className=" btn btn-success btn-lg w-full sm:w-auto">get started</a>
           </Link>
           <a
             href="https://github.com/G3root"
@@ -44,5 +41,5 @@ export function Hero(props: IHeroProps) {
         />
       </div>
     </div>
-  );
+  )
 }

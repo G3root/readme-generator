@@ -1,9 +1,9 @@
-import * as React from "react";
-import { ButtonStyleProps, buttonStyles } from "./styles";
+import * as React from 'react'
+import { ButtonStyleProps, buttonStyles } from './styles'
 
 export interface IIconButtonProps extends ButtonStyleProps {
-  Icon: JSX.Element;
-  "aria-label": string;
+  Icon: JSX.Element
+  'aria-label': string
 }
 
 const IconButtonInner = (
@@ -11,8 +11,8 @@ const IconButtonInner = (
   ref: React.ForwardedRef<HTMLButtonElement>
 ) => {
   const iconComponent = React.cloneElement(Icon, {
-    "aria-hidden": true,
-  });
+    'aria-hidden': true,
+  })
 
   return (
     <button
@@ -28,7 +28,7 @@ const IconButtonInner = (
     >
       {iconComponent}
     </button>
-  );
-};
+  )
+}
 
-export const IconButton = React.forwardRef(IconButtonInner);
+export const IconButton = React.forwardRef(IconButtonInner)

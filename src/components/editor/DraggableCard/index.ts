@@ -1,1 +1,1 @@
-export * from "./DraggableCard";
+export * from './DraggableCard'

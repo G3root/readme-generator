@@ -1,1 +1,1 @@
-export * from './SidebarFilterForm';
+export * from './SidebarFilterForm'

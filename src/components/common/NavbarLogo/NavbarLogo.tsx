@@ -1,5 +1,5 @@
-import * as React from "react";
-import Link from "next/link";
+import * as React from 'react'
+import Link from 'next/link'
 
 export interface INavbarLogoProps {}
 
@@ -12,5 +12,5 @@ export function NavbarLogo(props: INavbarLogoProps) {
         </div>
       </a>
     </Link>
-  );
+  )
 }

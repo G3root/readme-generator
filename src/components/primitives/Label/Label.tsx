@@ -1,10 +1,10 @@
-import * as React from "react";
-import { clsx } from "~/utils";
+import * as React from 'react'
+import { clsx } from '~/utils'
 
 export interface ILabelProps {
-  labelText: string;
-  labelTextAlt?: string;
-  labelTextClassName?: string;
+  labelText: string
+  labelTextAlt?: string
+  labelTextClassName?: string
 }
 
 export function Label({
@@ -13,15 +13,11 @@ export function Label({
   className,
   labelTextClassName,
   ...rest
-}: ILabelProps & JSX.IntrinsicElements["label"]) {
+}: ILabelProps & JSX.IntrinsicElements['label']) {
   return (
-    <label className={clsx("label", className)} {...rest}>
-      <span className={clsx("label-text", labelTextClassName)}>
-        {labelText}
-      </span>
-      {labelTextAlt ? (
-        <span className="label-text-alt">{labelTextAlt}</span>
-      ) : null}
+    <label className={clsx('label', className)} {...rest}>
+      <span className={clsx('label-text', labelTextClassName)}>{labelText}</span>
+      {labelTextAlt ? <span className="label-text-alt">{labelTextAlt}</span> : null}
     </label>
-  );
+  )
 }

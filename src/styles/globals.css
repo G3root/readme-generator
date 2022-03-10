@@ -6,7 +6,7 @@
   display: block;
 }
 
-[data-theme="dark"] .hidden-in-dark {
+[data-theme='dark'] .hidden-in-dark {
   display: none;
 }
 
@@ -14,6 +14,6 @@
   display: none;
 }
 
-[data-theme="dark"] .hidden-in-light {
+[data-theme='dark'] .hidden-in-light {
   display: block;
 }

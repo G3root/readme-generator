@@ -1,25 +1,22 @@
-import * as React from "react";
-import { NavbarLogo } from "~/components/common";
-import { SidebarFilterForm, SideBarListCard } from "~/components/editor";
-import { Category } from "~/types";
-import { inActiveBlocksAtom, defaultBlocksAtom } from "~/store";
-import { useAtomValue } from "jotai/utils";
+import * as React from 'react'
+import { NavbarLogo } from '~/components/common'
+import { SidebarFilterForm, SideBarListCard } from '~/components/editor'
+import { Category } from '~/types'
+import { inActiveBlocksAtom, defaultBlocksAtom } from '~/store'
+import { useAtomValue } from 'jotai/utils'
 
 export interface ISideBarContentProps {}
 
 export function SideBarContent(props: ISideBarContentProps) {
-  const list = useAtomValue(inActiveBlocksAtom);
-  const blocks = useAtomValue(defaultBlocksAtom);
-  const [query, setquery] = React.useState("");
-  const [blockType, setBlockType] = React.useState<
-    "all" | "project" | "profile"
-  >("all");
+  const list = useAtomValue(inActiveBlocksAtom)
+  const blocks = useAtomValue(defaultBlocksAtom)
+  const [query, setquery] = React.useState('')
+  const [blockType, setBlockType] = React.useState<'all' | 'project' | 'profile'>('all')
 
   const handleBlockType = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setBlockType(e.target.value as any);
+    setBlockType(e.target.value as any)
 
-  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setquery(e.target.value);
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => setquery(e.target.value)
 
   const data = React.useMemo(
     () =>
@@ -29,35 +26,30 @@ export function SideBarContent(props: ISideBarContentProps) {
         category: blocks[id].category,
       })),
     [list, blocks]
-  );
+  )
 
   const filteredData = React.useMemo(
     () =>
       data.filter((element) => {
-        if (blockType === "project") {
-          return query === ""
+        if (blockType === 'project') {
+          return query === ''
             ? element.category === Category.Project
             : element.category === Category.Project &&
-                element.name.toLowerCase().includes(query.toLowerCase());
-        } else if (blockType === "profile") {
-          return query === ""
+                element.name.toLowerCase().includes(query.toLowerCase())
+        } else if (blockType === 'profile') {
+          return query === ''
             ? element.category === Category.GithubProfile
             : element.category === Category.GithubProfile &&
-                element.name.toLowerCase().includes(query.toLowerCase());
+                element.name.toLowerCase().includes(query.toLowerCase())
         } else {
-          return query === ""
-            ? element
-            : element.name.toLowerCase().includes(query.toLowerCase());
+          return query === '' ? element : element.name.toLowerCase().includes(query.toLowerCase())
         }
       }),
     [blockType, query, data]
-  );
+  )
 
   return (
-    <div
-      className="drawer-side"
-      style={{ scrollBehavior: "smooth", scrollPaddingTop: "5rem" }}
-    >
+    <div className="drawer-side" style={{ scrollBehavior: 'smooth', scrollPaddingTop: '5rem' }}>
       <label htmlFor="drawer" className="drawer-overlay" />
       <aside className="w-80 bg-base-200">
         <div className="sticky top-0 z-20 hidden items-center gap-2 bg-base-200 bg-opacity-90 px-4 py-2 backdrop-blur lg:flex ">
@@ -80,5 +72,5 @@ export function SideBarContent(props: ISideBarContentProps) {
         <div className="pointer-events-none sticky bottom-0 flex h-20 bg-gradient-to-t from-base-200 to-transparent" />
       </aside>
     </div>
-  );
+  )
 }

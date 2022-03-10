@@ -1,14 +1,14 @@
-import { useAtomValue } from "jotai";
-import * as React from "react";
-import { DraggableCard } from "~/components/editor";
-import { activeBlocksAtom } from "~/store";
+import { useAtomValue } from 'jotai'
+import * as React from 'react'
+import { DraggableCard } from '~/components/editor'
+import { activeBlocksAtom } from '~/store'
 
-import { SortableContext } from "@dnd-kit/sortable";
+import { SortableContext } from '@dnd-kit/sortable'
 
 export interface IEditorColumnTabPanelProps {}
 
 export function EditorColumnTabPanel(props: IEditorColumnTabPanelProps) {
-  const blockIds = useAtomValue(activeBlocksAtom);
+  const blockIds = useAtomValue(activeBlocksAtom)
   return (
     <SortableContext items={blockIds}>
       <div className="h-[74vh] overflow-auto border p-4 lg:h-[83vh]">
@@ -19,5 +19,5 @@ export function EditorColumnTabPanel(props: IEditorColumnTabPanelProps) {
         </ul>
       </div>
     </SortableContext>
-  );
+  )
 }

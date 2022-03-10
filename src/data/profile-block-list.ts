@@ -1,6 +1,4 @@
-import { MultipleProfileBlockList } from './multiple-profile-block-list';
-import { SingleProfileBlockList } from './single-profile-block-list';
+import { MultipleProfileBlockList } from './multiple-profile-block-list'
+import { SingleProfileBlockList } from './single-profile-block-list'
 
-export const ProfileBlockList = SingleProfileBlockList.concat(
-  MultipleProfileBlockList
-);
+export const ProfileBlockList = SingleProfileBlockList.concat(MultipleProfileBlockList)

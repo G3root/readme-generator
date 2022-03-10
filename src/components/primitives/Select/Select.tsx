@@ -1,7 +1,7 @@
-import * as React from "react";
-import { SelectInputStyleProps, selectInputStyles } from "./styles";
+import * as React from 'react'
+import { SelectInputStyleProps, selectInputStyles } from './styles'
 export interface ISelectProps extends SelectInputStyleProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 function SelectInner(
@@ -21,7 +21,7 @@ function SelectInner(
     >
       {children}
     </select>
-  );
+  )
 }
 
-export const Select = React.forwardRef(SelectInner);
+export const Select = React.forwardRef(SelectInner)

@@ -1,23 +1,18 @@
-import {
-  BlocksObjectWithId,
-  BlockType,
-  BlockValuesObject,
-  Options,
-} from "~/types";
-import { ProfileBlockList, ProjectBlockList } from "~/data";
+import { BlocksObjectWithId, BlockType, BlockValuesObject, Options } from '~/types'
+import { ProfileBlockList, ProjectBlockList } from '~/data'
 
 export const generateBlockData = () => {
-  let ConcattedBlocks = ProjectBlockList.concat(ProfileBlockList);
-  let inActiveBlocks: string[] = [];
-  let nextId = ConcattedBlocks.length + 200;
-  let defaultBlocks: BlocksObjectWithId = {};
-  let blockValues: BlockValuesObject = {};
+  let ConcattedBlocks = ProjectBlockList.concat(ProfileBlockList)
+  let inActiveBlocks: string[] = []
+  let nextId = ConcattedBlocks.length + 200
+  let defaultBlocks: BlocksObjectWithId = {}
+  let blockValues: BlockValuesObject = {}
 
   for (let index = 0; index < ConcattedBlocks.length; index++) {
-    let block = ConcattedBlocks[index];
-    let key = index.toString();
-    inActiveBlocks.push(key);
-    defaultBlocks[key] = { ...block, id: key };
+    let block = ConcattedBlocks[index]
+    let key = index.toString()
+    inActiveBlocks.push(key)
+    defaultBlocks[key] = { ...block, id: key }
 
     if (block.type === BlockType.Single) {
       blockValues[key] = {
@@ -29,11 +24,10 @@ export const generateBlockData = () => {
           options: block.options.map((data) => ({
             name: data.name,
             value: data.value,
-            ...(data.type === Options.Text &&
-              data.textType === "color" && { isColor: true }),
+            ...(data.type === Options.Text && data.textType === 'color' && { isColor: true }),
           })),
         }),
-      };
+      }
     }
     if (block.type === BlockType.Multiple) {
       blockValues[key] = {
@@ -44,8 +38,8 @@ export const generateBlockData = () => {
           name,
           isActive,
         })),
-      };
+      }
     }
   }
-  return { nextId, defaultBlocks, inActiveBlocks, blockValues };
-};
+  return { nextId, defaultBlocks, inActiveBlocks, blockValues }
+}

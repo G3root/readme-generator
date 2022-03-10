@@ -1,5 +1,5 @@
-import * as React from "react";
-import { TextInputStyleProps, textInputStyles } from "./styles";
+import * as React from 'react'
+import { TextInputStyleProps, textInputStyles } from './styles'
 
 export interface ITextInputProps extends TextInputStyleProps {}
 
@@ -18,7 +18,7 @@ function TextInputInner(
       ref={ref}
       {...rest}
     />
-  );
+  )
 }
 
-export const TextInput = React.forwardRef(TextInputInner);
+export const TextInput = React.forwardRef(TextInputInner)

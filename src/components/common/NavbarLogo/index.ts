@@ -1,1 +1,1 @@
-export * from './NavbarLogo';
+export * from './NavbarLogo'

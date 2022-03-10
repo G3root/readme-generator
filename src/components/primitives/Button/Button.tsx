@@ -1,8 +1,8 @@
-import * as React from "react";
-import { ButtonStyleProps, buttonStyles } from "./styles";
+import * as React from 'react'
+import { ButtonStyleProps, buttonStyles } from './styles'
 
 export interface IButtonProps extends ButtonStyleProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const Button = ({
@@ -30,4 +30,4 @@ export const Button = ({
   >
     {children}
   </button>
-);
+)

@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from 'react'
 
 export interface IEditorLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export function EditorLayout({ children }: IEditorLayoutProps) {
   return (
-    <div className="bg-base-100 drawer h-screen drawer-mobile">
+    <div className="drawer drawer-mobile h-screen bg-base-100">
       <input id="drawer" type="checkbox" className="drawer-toggle" />
       {children}
     </div>
-  );
+  )
 }

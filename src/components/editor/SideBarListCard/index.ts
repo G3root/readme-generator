@@ -1,1 +1,1 @@
-export * from './SideBarListCard';
+export * from './SideBarListCard'

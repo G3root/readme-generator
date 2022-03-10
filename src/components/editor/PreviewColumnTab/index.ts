@@ -1,1 +1,1 @@
-export * from "./PreviewColumnTab";
+export * from './PreviewColumnTab'

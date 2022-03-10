@@ -1,43 +1,37 @@
-import * as React from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Button, IconButton } from "~/components/primitives";
-import { FiX } from "react-icons/fi";
-import { OptionType, Options, SingleBlockValueOptions } from "~/types";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { FormControl, Label, Select, TextInput } from "~/components/primitives";
-import { selectAtom } from "jotai/utils";
-import {
-  blockConfigModalStateAtom,
-  blockValuesAtom,
-  defaultBlocksAtom,
-} from "~/store";
-import { useAtom, useAtomValue } from "jotai";
+import * as React from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { Button, IconButton } from '~/components/primitives'
+import { FiX } from 'react-icons/fi'
+import { OptionType, Options, SingleBlockValueOptions } from '~/types'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { FormControl, Label, Select, TextInput } from '~/components/primitives'
+import { selectAtom } from 'jotai/utils'
+import { blockConfigModalStateAtom, blockValuesAtom, defaultBlocksAtom } from '~/store'
+import { useAtom, useAtomValue } from 'jotai'
 
 export interface ISingleItemContentModalProps {
-  id: string;
+  id: string
 }
 
 export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
-  const [isOpen, setIsOpen] = useAtom(blockConfigModalStateAtom);
+  const [isOpen, setIsOpen] = useAtom(blockConfigModalStateAtom)
 
-  const focusref = React.useRef(null);
+  const focusref = React.useRef(null)
 
   const handleClose = () => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
   const blockAtom = selectAtom(
     defaultBlocksAtom,
     React.useCallback((block: any) => block[id].options, [id])
-  );
+  )
   const blockValueAtom = selectAtom(
     blockValuesAtom,
     React.useCallback((block: any) => block[id].options, [id])
-  );
-  const blockValueOptions = useAtomValue(
-    blockValueAtom
-  ) as SingleBlockValueOptions[];
+  )
+  const blockValueOptions = useAtomValue(blockValueAtom) as SingleBlockValueOptions[]
 
-  const blockOptions = useAtomValue(blockAtom) as OptionType[];
+  const blockOptions = useAtomValue(blockAtom) as OptionType[]
 
   const {
     register,
@@ -45,20 +39,20 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
     watch,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm()
 
   const onSubmit: SubmitHandler<any> = (data) => {
     // setOptionsValue(id, data);
     // onClose();
-    handleClose();
-  };
+    handleClose()
+  }
 
   const data = blockOptions.map((option, index) => {
-    const type = option.type;
-    const currentValue = blockValueOptions[index];
-    const name = currentValue.name;
-    const value = currentValue.value;
-    const label = option.label;
+    const type = option.type
+    const currentValue = blockValueOptions[index]
+    const name = currentValue.name
+    const value = currentValue.value
+    const label = option.label
 
     switch (type) {
       case Options.CheckBox:
@@ -74,16 +68,12 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
               />
             </label>
           </FormControl>
-        );
+        )
       case Options.Select:
         return (
           <FormControl key={name}>
             <Label id={name} labelText={label} />
-            <Select
-              defaultValue={value as string}
-              {...register(name)}
-              id={name}
-            >
+            <Select defaultValue={value as string} {...register(name)} id={name}>
               {option.options.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -91,7 +81,7 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
               ))}
             </Select>
           </FormControl>
-        );
+        )
       case Options.Text:
         return (
           <FormControl key={name}>
@@ -103,9 +93,9 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
               type={option.textType}
             />
           </FormControl>
-        );
+        )
     }
-  });
+  })
 
   return (
     <Transition.Root show={isOpen} as={React.Fragment}>
@@ -130,10 +120,7 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
             <Dialog.Overlay className="fixed inset-0  bg-neutral-focus bg-opacity-40 transition-opacity duration-200 ease-in-out" />
           </Transition.Child>
           {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className="hidden sm:inline-block sm:h-screen sm:align-middle"
-            aria-hidden="true"
-          >
+          <span className="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">
             &#8203;
           </span>
           <Transition.Child
@@ -158,10 +145,7 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <form
-                    className="plg:px-8 space-y-2 px-6 "
-                    onSubmit={handleSubmit(onSubmit)}
-                  >
+                  <form className="plg:px-8 space-y-2 px-6 " onSubmit={handleSubmit(onSubmit)}>
                     <Dialog.Title as="h3" className="text-xl font-medium ">
                       Update configs
                     </Dialog.Title>
@@ -180,5 +164,5 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
         </div>
       </Dialog>
     </Transition.Root>
-  );
+  )
 }

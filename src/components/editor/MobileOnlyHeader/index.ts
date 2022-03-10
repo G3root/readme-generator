@@ -1,1 +1,1 @@
-export * from "./MobileOnlyHeader";
+export * from './MobileOnlyHeader'
