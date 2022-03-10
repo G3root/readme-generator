@@ -6,15 +6,10 @@ export interface IIconButtonProps extends ButtonStyleProps {
   "aria-label": string;
 }
 
-export const IconButton = ({
-  scheme,
-  shape,
-  size,
-  outline,
-  className,
-  Icon,
-  ...rest
-}: IIconButtonProps) => {
+const IconButtonInner = (
+  { scheme, shape, size, outline, className, Icon, ...rest }: IIconButtonProps,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) => {
   const iconComponent = React.cloneElement(Icon, {
     "aria-hidden": true,
   });
@@ -29,8 +24,11 @@ export const IconButton = ({
         class: className,
       })}
       {...rest}
+      ref={ref}
     >
       {iconComponent}
     </button>
   );
 };
+
+export const IconButton = React.forwardRef(IconButtonInner);
