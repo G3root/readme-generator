@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hidden-in-dark {
+  display: block;
+}
+
+[data-theme="dark"] .hidden-in-dark {
+  display: none;
+}
+
+.hidden-in-light {
+  display: none;
+}
+
+[data-theme="dark"] .hidden-in-light {
+  display: block;
+}
