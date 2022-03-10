@@ -3,7 +3,7 @@ import { BlockType, ExplicitSingleBlockValue } from '~/types'
 import pupa from 'pupa'
 import { useUpdateAtom, selectAtom } from 'jotai/utils'
 import { blockConfigModalStateAtom, blockValuesAtom } from '~/store'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { Button } from '~/components/primitives'
 import { SingleItemContentModal } from './SingleItemContentModal'
 
@@ -19,7 +19,7 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
 
   const blockValue = useAtomValue(blockValueAtom) as ExplicitSingleBlockValue
   const setBlockValue = useUpdateAtom(blockValuesAtom)
-  const setConfigModalState = useUpdateAtom(blockConfigModalStateAtom)
+  const toggleModal = useUpdateAtom(blockConfigModalStateAtom)
 
   const onEditableChange = (code: string) => {
     setBlockValue((draft) => {
@@ -60,7 +60,7 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
     <div className="cursor-auto text-xs">
       {options ? (
         <div className="mb-3 flex items-center justify-end py-3">
-          <Button onClick={() => setConfigModalState((state) => !state)} size="sm">
+          <Button onClick={() => toggleModal()} size="sm">
             update configs
           </Button>
         </div>

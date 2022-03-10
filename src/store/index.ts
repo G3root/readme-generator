@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { BlockValuesObject, BlocksObjectWithId } from '~/types'
 import { atomWithImmer } from 'jotai/immer'
-import { generateBlockData, GenerateMarkdown } from '~/utils'
+import { atomWithToggle, generateBlockData, GenerateMarkdown } from '~/utils'
 
 const { nextId, inActiveBlocks, blockValues, defaultBlocks } = generateBlockData()
 
@@ -18,9 +18,9 @@ export const nextIdAtom = atomWithImmer<Number>(nextId)
 export const blockValuesAtom = atomWithImmer<BlockValuesObject>(blockValues)
 
 // atoms wich controls modal states
-export const blockConfigModalStateAtom = atom(false)
-export const addItemsModalStateAtom = atom(false)
-export const customBlockModalStateAtom = atom(false)
+export const blockConfigModalStateAtom = atomWithToggle(false)
+export const addItemsModalStateAtom = atomWithToggle(false)
+export const customBlockModalStateAtom = atomWithToggle(false)
 
 // atom wich holds default blocks
 export const defaultBlocksAtom = atomWithImmer<BlocksObjectWithId>(defaultBlocks)

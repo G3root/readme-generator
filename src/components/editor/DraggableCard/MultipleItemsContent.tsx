@@ -25,7 +25,7 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
     return { ...snippet, markdown }
   })
   const activeItems = mergeBlockAndValues.filter((value) => value.isActive)
-  const setAddItemModalState = useUpdateAtom(addItemsModalStateAtom)
+  const toggleModal = useUpdateAtom(addItemsModalStateAtom)
 
   const handleRemove = (name: string) => {
     setBlockvalues((draft) => {
@@ -61,7 +61,7 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
   return (
     <div className="cursor-auto">
       <div className="mb-3 flex items-center justify-end py-3">
-        <Button onClick={() => setAddItemModalState((state) => !state)} size="sm" scheme="success">
+        <Button onClick={() => toggleModal()} size="sm" scheme="success">
           <span className="mr-2">
             <FiPlus />
           </span>

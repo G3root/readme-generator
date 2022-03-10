@@ -40,7 +40,7 @@ export function SidebarFilterForm({
   blockType,
   handleBlockType,
 }: ISidebarFilterFormProps) {
-  const [isOpen, setIsOpen] = useAtom(customBlockModalStateAtom)
+  const [isOpen, toggleModal] = useAtom(customBlockModalStateAtom)
   return (
     <>
       <FormControl>
@@ -67,12 +67,7 @@ export function SidebarFilterForm({
           onChange={handleQuery}
         />
         <div className="mt-4 mr-4 flex items-center justify-end">
-          <Button
-            onClick={() => setIsOpen((value) => (value = !value))}
-            outline
-            scheme="success"
-            size="sm"
-          >
+          <Button onClick={() => toggleModal()} outline scheme="success" size="sm">
             <span className="mr-2">
               <FiPlus aria-hidden />
             </span>
