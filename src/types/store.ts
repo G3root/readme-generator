@@ -13,11 +13,6 @@ export enum Options {
   CheckBox,
 }
 
-export enum ParentTagName {
-  LanguageAndTools,
-  Social,
-}
-
 export enum BlockType {
   Single,
   Multiple,
@@ -56,7 +51,6 @@ export interface MultipleBlock {
   type: BlockType.Multiple
   snippets: Snippet[]
   title: string
-  parentTag?: ParentTagName
 }
 
 export interface SingleBlock {

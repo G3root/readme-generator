@@ -1,6 +1,6 @@
 // https://github.com/rahuldkjain/github-profile-readme-generator/blob/master/src/constants/skills.js
 
-import { Category, Block, BlockType, ParentTagName } from '~/types'
+import { Category, Block, BlockType } from '~/types'
 import dedent from 'ts-dedent'
 
 const categorizedSkills = {
@@ -828,7 +828,6 @@ export const MultipleProfileBlockList: Block[] = categories.map((item) => ({
   category: Category.GithubProfile,
   type: BlockType.Multiple,
   title: categorizedSkills[item].title,
-  parentTag: ParentTagName.LanguageAndTools,
   snippets: categorizedSkills[item].skills.map((skill) => ({
     isActive: false,
     name: skill.name,
