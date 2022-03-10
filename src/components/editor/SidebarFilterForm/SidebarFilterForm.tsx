@@ -1,5 +1,16 @@
+import { useAtom } from 'jotai'
 import * as React from 'react'
-import { FormControl, Label, Select, TextInput, VisuallyHidden } from '~/components/primitives'
+import { FiPlus } from 'react-icons/fi'
+import {
+  Button,
+  FormControl,
+  Label,
+  Select,
+  TextInput,
+  VisuallyHidden,
+} from '~/components/primitives'
+import { customBlockModalStateAtom } from '~/store'
+import CustomBlockModal from '../CustomBlockModal/CustomBlockModal'
 
 export interface ISidebarFilterFormProps {
   blockType: 'all' | 'project' | 'profile'
@@ -29,6 +40,7 @@ export function SidebarFilterForm({
   blockType,
   handleBlockType,
 }: ISidebarFilterFormProps) {
+  const [isOpen, setIsOpen] = useAtom(customBlockModalStateAtom)
   return (
     <>
       <FormControl>
@@ -54,7 +66,21 @@ export function SidebarFilterForm({
           defaultValue={query}
           onChange={handleQuery}
         />
+        <div className="mt-4 mr-4 flex items-center justify-end">
+          <Button
+            onClick={() => setIsOpen((value) => (value = !value))}
+            outline
+            scheme="success"
+            size="sm"
+          >
+            <span className="mr-2">
+              <FiPlus aria-hidden />
+            </span>
+            Custom Block
+          </Button>
+        </div>
       </FormControl>
+      {isOpen ? <CustomBlockModal /> : null}
     </>
   )
 }
