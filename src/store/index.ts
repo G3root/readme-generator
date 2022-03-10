@@ -10,6 +10,10 @@ export const activeBlocksAtom = atomWithImmer<string[]>([]);
 export const inActiveBlocksAtom = atomWithImmer<string[]>(inActiveBlocks);
 export const nextIdAtom = atomWithImmer<Number>(nextId);
 export const blockValuesAtom = atomWithImmer<BlockValuesObject>(blockValues);
+
+export const blockConfigModalStateAtom = atom(false);
+export const addItemsModalStateAtom = atom(false);
+
 export const defaultBlocksAtom =
   atomWithImmer<BlocksObjectWithId>(defaultBlocks);
 
