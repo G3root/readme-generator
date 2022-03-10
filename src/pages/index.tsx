@@ -1,7 +1,13 @@
 import type { NextPage } from "next";
+import { Hero, HomeNavbar } from "~/components/home";
 
 const Home: NextPage = () => {
-  return <div className="text-red-500">hello world</div>;
+  return (
+    <div>
+      <HomeNavbar />
+      <Hero />
+    </div>
+  );
 };
 
 export default Home;
