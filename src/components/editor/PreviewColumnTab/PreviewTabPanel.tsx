@@ -57,7 +57,7 @@ export interface IPreviewTabPanelProps {}
 export function PreviewTabPanel(props: IPreviewTabPanelProps) {
   const markdown = useAtomValue(markdownAtom);
   return (
-    <div className="h-[83vh] overflow-auto border p-4">
+    <div className="h-[74vh] overflow-auto border p-4 lg:h-[83vh]">
       <div className="wmde-markdown wmde-markdown-color p-2">
         <ReactMarkdown
           rehypePlugins={[

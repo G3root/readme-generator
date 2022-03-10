@@ -10,7 +10,7 @@ export interface IRawTabPanelProps {}
 export function RawTabPanel(props: IRawTabPanelProps) {
   const markdown = useAtomValue(markdownAtom);
   return (
-    <div className="h-[83vh] overflow-auto rounded-lg bg-[#011627] p-5">
+    <div className="h-[74vh] overflow-auto rounded-lg bg-[#011627] p-5 lg:h-[83vh]">
       <Highlight
         {...defaultProps}
         code={markdown}

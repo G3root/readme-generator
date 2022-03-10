@@ -32,7 +32,7 @@ export function ActionButtons(props: IActionButtonsProps) {
 
   return (
     <div className="mr-4 flex items-center space-x-2">
-      <Button onClick={onCopy} outline size="sm">
+      <Button onClick={onCopy} outline className="btn-xs lg:btn-sm">
         <span className="mr-2">
           {isCopied ? (
             <FiCheck size={15} aria-hidden={true} />
@@ -42,7 +42,11 @@ export function ActionButtons(props: IActionButtonsProps) {
         </span>
         Copy
       </Button>
-      <Button onClick={handleDownload} scheme="success" size="sm">
+      <Button
+        onClick={handleDownload}
+        scheme="success"
+        className="btn-xs lg:btn-sm"
+      >
         <span className="mr-2">
           <FiDownload size={15} aria-hidden={true} />
         </span>
