@@ -1,11 +1,12 @@
 import * as React from "react";
 import { NavbarLogo, ThemeSwitcher } from "~/components/common";
+import { ActionButtons } from "~/components/editor";
 
 export interface IEditorNavbarProps {}
 
 export function EditorNavbar(props: IEditorNavbarProps) {
   return (
-    <div className="flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100 bg-base-100 text-base-content">
+    <div className="flex h-16 w-full justify-center bg-base-100 bg-opacity-90 text-base-content backdrop-blur transition-all duration-100">
       <nav className="navbar w-full">
         <div className="flex flex-1 gap-1 lg:gap-2">
           <span
@@ -14,7 +15,7 @@ export function EditorNavbar(props: IEditorNavbarProps) {
           >
             <label
               htmlFor="drawer"
-              className="btn btn-square btn-ghost drawer-button lg:hidden"
+              className="btn btn-ghost btn-square drawer-button lg:hidden"
             >
               <svg
                 width={20}
@@ -38,6 +39,9 @@ export function EditorNavbar(props: IEditorNavbarProps) {
           </div>
         </div>
         <div className="flex-0">
+          <div className="hidden lg:block">
+            <ActionButtons />
+          </div>
           <ThemeSwitcher />
         </div>
       </nav>
