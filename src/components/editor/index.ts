@@ -4,3 +4,4 @@ export * from "./EditorNavbar";
 export * from "./SideBarContent";
 export * from "./ActionButtons";
 export * from "./DraggableCard";
+export * from "./PreviewColumnTab";
