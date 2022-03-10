@@ -81,10 +81,16 @@ export interface BlocksObjectWithId {
   [key: string]: Block & { id: string };
 }
 
+export type SingleBlockValueOptions = {
+  name: string;
+  value: string | boolean;
+  isColor?: boolean;
+};
+
 export type SingleBlockValues = {
   type: BlockType.Single;
   markdown: string;
-  options?: { name: string; value: string | boolean; isColor?: boolean }[];
+  options?: SingleBlockValueOptions[];
 };
 
 export type MultipleBlockValues = {
@@ -104,3 +110,20 @@ export type BlockValues = {
 export interface BlockValuesObject {
   [key: string]: BlockValues;
 }
+
+export type ExplicitSingleBlockValue = Extract<
+  BlockValues,
+  { type: BlockType.Single }
+>;
+
+export type ExplicitMultipleBlockValue = Extract<
+  BlockValues,
+  { type: BlockType.Multiple }
+>;
+
+export type ExplicitSingleBlock = Extract<Block, { type: BlockType.Single }>;
+
+export type ExplicitMultipleBlock = Extract<
+  Block,
+  { type: BlockType.Multiple }
+>;
