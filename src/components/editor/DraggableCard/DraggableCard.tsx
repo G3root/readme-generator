@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FiX, FiArrowDown, FiArrowUp, FiRefreshCw, FiChevronUp } from 'react-icons/fi'
+import { FiX, FiArrowDown, FiArrowUp, FiRefreshCw, FiChevronUp, FiTrash } from 'react-icons/fi'
 import { VscGripper } from 'react-icons/vsc'
 import { IconButton, ToolTip } from '~/components/primitives'
 import { Disclosure } from '@headlessui/react'
@@ -8,8 +8,14 @@ import { useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useAtomValue } from 'jotai'
 import { useUpdateAtom, useAtomCallback, selectAtom } from 'jotai/utils'
-import { activeBlocksAtom, blockValuesAtom, defaultBlocksAtom, inActiveBlocksAtom } from '~/store'
-import { BlockType } from '~/types'
+import {
+  activeBlocksAtom,
+  blockValuesAtom,
+  allBlocks,
+  inActiveBlocksAtom,
+  customBlocksAtom,
+} from '~/store'
+import { BlockType, Category } from '~/types'
 import { CardEditableContent } from './CardEditableContent'
 
 export interface IDraggableCardProps {
@@ -23,17 +29,17 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
     transform: CSS.Transform.toString(transform),
     transition,
   }
-  const nameAtom = selectAtom(
-    defaultBlocksAtom,
-    React.useCallback((block) => block[id].name, [id])
-  )
-  const name = useAtomValue(nameAtom)
+
+  const block = useAtomValue(allBlocks)[id]
+  const name = block.name
   const updateActiveBlock = useUpdateAtom(activeBlocksAtom)
   const updateInactiveBlock = useUpdateAtom(inActiveBlocksAtom)
   const updateBlockValues = useUpdateAtom(blockValuesAtom)
+  const updateCustomBlocks = useUpdateAtom(customBlocksAtom)
+
   const defaultBlocks = useAtomCallback(
     React.useCallback((get) => {
-      const blocks = get(defaultBlocksAtom)
+      const blocks = get(allBlocks)
       return blocks
     }, [])
   )
@@ -46,6 +52,26 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
           const inactiveItems = inActiveDraft
           inactiveItems.unshift(id)
           return (inActiveDraft = inactiveItems)
+        })
+        const items = draft
+        items.splice(index, 1)
+        return (draft = items)
+      }
+    })
+  }
+  const handleDelete = () => {
+    updateActiveBlock((draft) => {
+      const index = draft.findIndex((item) => item === id)
+      if (index !== -1) {
+        updateBlockValues((blockValues) => {
+          let blockItems = blockValues
+          delete blockItems[id]
+          return (blockValues = blockItems)
+        })
+        updateCustomBlocks((blockValues) => {
+          let blockItems = blockValues
+          delete blockItems[id]
+          return (blockValues = blockItems)
         })
         const items = draft
         items.splice(index, 1)
@@ -85,6 +111,8 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
     })
   }
 
+  const isCustomBlock =
+    block.category === Category.CustomProject || Category.CustomGithubProfile ? true : false
   return (
     <li ref={setNodeRef} style={style} {...attributes}>
       <div className="card border border-base-300 bg-base-100  shadow-md">
@@ -139,6 +167,19 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
                     onClick={handleRemove}
                   />
                 </ToolTip>
+                {isCustomBlock ? (
+                  <ToolTip direction="bottom" value="delete block">
+                    <IconButton
+                      size="xs"
+                      shape="square"
+                      scheme="error"
+                      aria-label="delete block"
+                      outline
+                      Icon={<FiTrash />}
+                      onClick={handleDelete}
+                    />
+                  </ToolTip>
+                ) : null}
               </div>
               <IconButton
                 size="sm"

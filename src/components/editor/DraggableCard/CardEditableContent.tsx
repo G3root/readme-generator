@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { selectAtom } from 'jotai/utils'
-import { blockValuesAtom, defaultBlocksAtom } from '~/store'
+import { blockValuesAtom, allBlocks } from '~/store'
 import { useAtomValue } from 'jotai'
 import { BlockType } from '~/types'
 import { SingleItemContent } from './SingleItemContent'
@@ -16,7 +16,7 @@ export function CardEditableContent({ id }: ICardEditableContentProps) {
     React.useCallback((block) => block[id].type, [id])
   )
   const defaultValueAtom = selectAtom(
-    defaultBlocksAtom,
+    allBlocks,
     React.useCallback((block) => block[id].type, [id])
   )
 

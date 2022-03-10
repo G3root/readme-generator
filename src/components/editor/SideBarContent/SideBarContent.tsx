@@ -2,14 +2,14 @@ import * as React from 'react'
 import { NavbarLogo } from '~/components/common'
 import { SidebarFilterForm, SideBarListCard } from '~/components/editor'
 import { Category } from '~/types'
-import { inActiveBlocksAtom, defaultBlocksAtom } from '~/store'
+import { inActiveBlocksAtom, allBlocks } from '~/store'
 import { useAtomValue } from 'jotai/utils'
 
 export interface ISideBarContentProps {}
 
 export function SideBarContent(props: ISideBarContentProps) {
   const list = useAtomValue(inActiveBlocksAtom)
-  const blocks = useAtomValue(defaultBlocksAtom)
+  const blocks = useAtomValue(allBlocks)
   const [query, setquery] = React.useState('')
   const [blockType, setBlockType] = React.useState<'all' | 'project' | 'profile'>('all')
 
@@ -33,14 +33,15 @@ export function SideBarContent(props: ISideBarContentProps) {
       data.filter((element) => {
         if (blockType === 'project') {
           return query === ''
-            ? element.category === Category.Project
-            : element.category === Category.Project &&
-                element.name.toLowerCase().includes(query.toLowerCase())
+            ? element.category === Category.Project || Category.CustomProject
+            : element.category === Category.Project ||
+                (Category.CustomProject && element.name.toLowerCase().includes(query.toLowerCase()))
         } else if (blockType === 'profile') {
           return query === ''
-            ? element.category === Category.GithubProfile
-            : element.category === Category.GithubProfile &&
-                element.name.toLowerCase().includes(query.toLowerCase())
+            ? element.category === Category.GithubProfile || Category.CustomGithubProfile
+            : element.category === Category.GithubProfile ||
+                (Category.CustomGithubProfile &&
+                  element.name.toLowerCase().includes(query.toLowerCase()))
         } else {
           return query === '' ? element : element.name.toLowerCase().includes(query.toLowerCase())
         }

@@ -2,7 +2,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import * as React from 'react'
 import { FiArrowLeft, FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Button, IconButton } from '~/components/primitives'
-import { addItemsModalStateAtom, blockValuesAtom, defaultBlocksAtom } from '~/store'
+import { addItemsModalStateAtom, blockValuesAtom, allBlocks } from '~/store'
 import { BlockType, ExplicitMultipleBlock, ExplicitMultipleBlockValue } from '~/types'
 import { useUpdateAtom } from 'jotai/utils'
 import { MultipleItemsContentModal } from './MultipleItemsContentModal'
@@ -17,7 +17,7 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
 
   const multipleBlockValue = blockvalues[id] as ExplicitMultipleBlockValue
 
-  const block = useAtomValue(defaultBlocksAtom)[id] as ExplicitMultipleBlock
+  const block = useAtomValue(allBlocks)[id] as ExplicitMultipleBlock
 
   const mergeBlockAndValues = multipleBlockValue.snippets.map((snippet) => {
     const markdown = block.snippets.find((item) => item.name === snippet.name)?.markdown as string

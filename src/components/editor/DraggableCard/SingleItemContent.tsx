@@ -1,13 +1,9 @@
 import * as React from 'react'
-import Highlight, { defaultProps } from 'prism-react-renderer'
-import { useEditable } from 'use-editable'
-import theme from 'prism-react-renderer/themes/nightOwl'
 import { BlockType, ExplicitSingleBlockValue } from '~/types'
 import pupa from 'pupa'
 import { useUpdateAtom, selectAtom } from 'jotai/utils'
 import { blockConfigModalStateAtom, blockValuesAtom } from '~/store'
 import { useAtomValue } from 'jotai'
-import { clsx } from '~/utils'
 import { Button } from '~/components/primitives'
 import { SingleItemContentModal } from './SingleItemContentModal'
 
@@ -24,26 +20,18 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
   const blockValue = useAtomValue(blockValueAtom) as ExplicitSingleBlockValue
   const setBlockValue = useUpdateAtom(blockValuesAtom)
   const setConfigModalState = useUpdateAtom(blockConfigModalStateAtom)
-  const editorRef = React.useRef(null)
 
-  const onEditableChange = React.useCallback((_code: string) => {
+  const onEditableChange = (code: string) => {
     setBlockValue((draft) => {
       const items = draft
       const element = items[id]
       const single = BlockType.Single
       if (element.type === single) {
-        element.markdown = _code.slice(0, -1)
+        element.markdown = code
       }
       return (draft = items)
     })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEditable(editorRef, onEditableChange, {
-    indentation: 2,
-    disabled: blockValue.options ? true : false,
-  })
+  }
 
   let markdown = blockValue.markdown
 
@@ -77,34 +65,12 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
           </Button>
         </div>
       ) : null}
-      <Highlight {...defaultProps} code={markdown} theme={theme} language="markdown">
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre
-            className={clsx(className, 'overflow-auto whitespace-pre p-3')}
-            style={style}
-            ref={editorRef}
-          >
-            {tokens.map((line, i) => {
-              const { className, ...rest } = getLineProps({ line, key: i })
-              return (
-                <div key={i} className={clsx(className, 'px-5')} {...rest}>
-                  {line
-                    .filter((token) => !token.empty)
-                    .map((token, tokenIndex) => (
-                      <span
-                        key={`token-${tokenIndex}`}
-                        {...getTokenProps({
-                          token,
-                          key: `token-${tokenIndex}`,
-                        })}
-                      />
-                    ))}
-                </div>
-              )
-            })}
-          </pre>
-        )}
-      </Highlight>
+      <textarea
+        value={markdown}
+        onChange={(e) => onEditableChange(e.target.value)}
+        className="textarea textarea-bordered h-full w-full p-3"
+        rows={5}
+      />
       {options ? <SingleItemContentModal id={id} /> : null}
     </div>
   )
