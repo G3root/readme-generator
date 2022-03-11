@@ -1,13 +1,24 @@
 import * as React from 'react'
 import { Dialog } from '@headlessui/react'
 import { Button } from '~/components/primitives'
-import { OptionType, Options, SingleBlockValueOptions } from '~/types'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import {
+  OptionType,
+  Options,
+  SingleBlockValueOptions,
+  ExplicitSingleBlock,
+  ExplicitSingleBlockValue,
+} from '~/types'
+import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { FormControl, Label, Select, TextInput } from '~/components/primitives'
-import { selectAtom } from 'jotai/utils'
-import { blockConfigModalStateAtom, blockValuesAtom, allBlocks } from '~/store'
+import {
+  blockConfigModalStateAtom,
+  blockValuesAtom,
+  allBlocks,
+  updateOptionsValueAtom,
+} from '~/store'
 import { useAtom, useAtomValue } from 'jotai'
 import { ModalBase } from '~/components/common'
+import { useUpdateAtom } from 'jotai/utils'
 
 export interface ISingleItemContentModalProps {
   id: string
@@ -20,82 +31,92 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
     setIsOpen(false)
   }
 
-  const blockAtom = selectAtom(
-    allBlocks,
-    React.useCallback((block: any) => block[id].options, [id])
-  )
+  const blockValue = useAtomValue(blockValuesAtom)[id] as ExplicitSingleBlockValue
+  const blockValueOptions = blockValue.options as SingleBlockValueOptions[]
 
-  const blockValueAtom = selectAtom(
-    blockValuesAtom,
-    React.useCallback((block: any) => block[id].options, [id])
-  )
+  const block = useAtomValue(allBlocks)[id] as ExplicitSingleBlock
+  const blockOptions = block.options as OptionType[]
 
-  const blockValueOptions = useAtomValue(blockValueAtom) as SingleBlockValueOptions[]
-
-  const blockOptions = useAtomValue(blockAtom) as OptionType[]
+  const setOptionsValue = useUpdateAtom(updateOptionsValueAtom)
 
   const {
     register,
     handleSubmit,
 
     formState: { errors },
+    control,
   } = useForm()
 
   const onSubmit: SubmitHandler<any> = (data) => {
-    // setOptionsValue(id, data);
-    // onClose();
+    console.log(data)
+
+    setOptionsValue({ id, values: data })
     handleClose()
   }
 
-  const data = blockOptions.map((option, index) => {
+  let data = []
+
+  for (let index = 0; index < blockOptions.length; index++) {
+    const option = blockOptions[index]
     const type = option.type
     const currentValue = blockValueOptions[index]
     const name = currentValue.name
     const value = currentValue.value
     const label = option.label
 
-    switch (type) {
-      case Options.CheckBox:
-        return (
-          <FormControl key={name}>
-            <label className="label cursor-pointer">
-              <span className="label-text">{label}</span>
-              <input
-                defaultChecked={value as boolean}
-                {...register(name)}
-                type="checkbox"
-                className="checkbox"
-              />
-            </label>
-          </FormControl>
-        )
-      case Options.Select:
-        return (
-          <FormControl key={name}>
-            <Label id={name} labelText={label} />
-            <Select defaultValue={value as string} {...register(name)} id={name}>
-              {option.options.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-        )
-      case Options.Text:
-        return (
-          <FormControl key={name}>
-            <Label id={name} labelText={label} />
-            <TextInput
-              defaultValue={value as string}
-              {...register(name)}
-              id={name}
-              type={option.textType}
-            />
-          </FormControl>
-        )
+    if (type === Options.Select) {
+      data.push(
+        <FormControl key={name}>
+          <Label id={name} labelText={label} />
+          <Select defaultValue={value as string} {...register(name)} id={name}>
+            {option.options.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+      )
     }
-  })
+    if (type === Options.CheckBox) {
+      data.push(
+        <FormControl key={name}>
+          <label className="label cursor-pointer">
+            <span className="label-text">{label}</span>
+            <Controller
+              control={control}
+              name={name}
+              defaultValue={value}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  onChange={(e) => {
+                    return field.onChange(e.target.checked)
+                  }}
+                  defaultChecked={field.value ? true : false}
+                  type="checkbox"
+                  className="checkbox"
+                />
+              )}
+            />
+          </label>
+        </FormControl>
+      )
+    }
+    if (type === Options.Text) {
+      data.push(
+        <FormControl key={name}>
+          <Label id={name} labelText={label} />
+          <TextInput
+            defaultValue={value as string}
+            {...register(name)}
+            id={name}
+            type={option.textType}
+          />
+        </FormControl>
+      )
+    }
+  }
 
   return (
     <ModalBase isOpen={isOpen} handleClose={handleClose}>

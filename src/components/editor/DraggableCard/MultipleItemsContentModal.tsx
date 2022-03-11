@@ -6,8 +6,9 @@ import { BlockType } from '~/types'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FormControl } from '~/components/primitives'
 
-import { blockValuesAtom, addItemsModalStateAtom } from '~/store'
-import { useAtom } from 'jotai'
+import { blockValuesAtom, addItemsModalStateAtom, toggleMultipleBlockItemAtom } from '~/store'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { HiOutlineSelector } from 'react-icons/hi'
 import { ExplicitMultipleBlockValue } from '~/types'
 import { ModalBase } from '~/components/common'
@@ -22,7 +23,8 @@ type Inputs = {
 
 export function MultipleItemsContentModal({ id }: IMultipleItemsContentModalProps) {
   const [isOpen, setIsOpen] = useAtom(addItemsModalStateAtom)
-  const [blockValues, setBlockValues] = useAtom(blockValuesAtom)
+  const blockValues = useAtomValue(blockValuesAtom)
+  const addItem = useUpdateAtom(toggleMultipleBlockItemAtom)
   const multipleBlockValue = blockValues[id] as ExplicitMultipleBlockValue
   const inactiveItems = multipleBlockValue.snippets.filter((value) => !value.isActive)
   const items = inactiveItems.map((item) => item.name)
@@ -33,18 +35,7 @@ export function MultipleItemsContentModal({ id }: IMultipleItemsContentModalProp
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setBlockValues((draft) => {
-      const obj = draft
-      const item = obj[id]
-      if (item.type === BlockType.Multiple) {
-        const snippets = item.snippets
-        const index = snippets.findIndex((snippet) => snippet.name === data.item)
-        if (index !== -1) {
-          snippets[index].isActive = true
-          return (draft = obj)
-        }
-      }
-    })
+    addItem({ id, name: data.item })
     setValue('item', '')
     handleClose()
   }

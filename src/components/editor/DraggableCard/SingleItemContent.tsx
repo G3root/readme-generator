@@ -1,36 +1,24 @@
 import * as React from 'react'
-import { BlockType, ExplicitSingleBlockValue } from '~/types'
+import { ExplicitSingleBlockValue } from '~/types'
 import pupa from 'pupa'
-import { useUpdateAtom, selectAtom } from 'jotai/utils'
-import { blockConfigModalStateAtom, blockValuesAtom } from '~/store'
-import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
+import { blockConfigModalStateAtom, blockValuesAtom, updateBlockValueMarkdownAtom } from '~/store'
+import { useAtomValue } from 'jotai'
 import { Button } from '~/components/primitives'
 import { SingleItemContentModal } from './SingleItemContentModal'
+import { clsx } from '~/utils'
 
 export interface ISingleItemContentProps {
   id: string
 }
 
 export function SingleItemContent({ id }: ISingleItemContentProps) {
-  const blockValueAtom = selectAtom(
-    blockValuesAtom,
-    React.useCallback((block) => block[id], [id])
-  )
-
-  const blockValue = useAtomValue(blockValueAtom) as ExplicitSingleBlockValue
-  const setBlockValue = useUpdateAtom(blockValuesAtom)
+  const blockValue = useAtomValue(blockValuesAtom)[id] as ExplicitSingleBlockValue
+  const setMarkdown = useUpdateAtom(updateBlockValueMarkdownAtom)
   const toggleModal = useUpdateAtom(blockConfigModalStateAtom)
 
   const onEditableChange = (code: string) => {
-    setBlockValue((draft) => {
-      const items = draft
-      const element = items[id]
-      const single = BlockType.Single
-      if (element.type === single) {
-        element.markdown = code
-      }
-      return (draft = items)
-    })
+    setMarkdown({ id, code })
   }
 
   let markdown = blockValue.markdown
@@ -68,8 +56,12 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
       <textarea
         value={markdown}
         onChange={(e) => onEditableChange(e.target.value)}
-        className="textarea textarea-bordered h-full w-full p-3"
+        className={clsx(
+          'textarea textarea-bordered h-full w-full p-3',
+          options && 'textarea-disabled'
+        )}
         rows={5}
+        disabled={options ? true : false}
       />
       {options ? <SingleItemContentModal id={id} /> : null}
     </div>

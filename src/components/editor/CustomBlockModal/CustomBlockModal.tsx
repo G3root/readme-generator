@@ -1,17 +1,11 @@
 import { useAtom } from 'jotai'
 import * as React from 'react'
 import { ModalBase } from '~/components/common'
-import {
-  activeBlocksAtom,
-  blockValuesAtom,
-  customBlockModalStateAtom,
-  customBlocksAtom,
-  nextIdAtom,
-} from '~/store'
+import { createCustomBlockAtom, customBlockModalStateAtom } from '~/store'
 import { Dialog } from '@headlessui/react'
 import { Button, FormControl, Label, Select, TextInput } from '~/components/primitives'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { BlockType, Category } from '~/types'
+import { Category } from '~/types'
 import { useUpdateAtom } from 'jotai/utils'
 
 const options = [
@@ -28,10 +22,7 @@ export interface ICustomBlockModalProps {}
 
 export default function CustomBlockModal(props: ICustomBlockModalProps) {
   const [isOpen, setIsOpen] = useAtom(customBlockModalStateAtom)
-  const [currentID, setCurrentID] = useAtom(nextIdAtom)
-  const updateCustomBlocks = useUpdateAtom(customBlocksAtom)
-  const updateValuesBlock = useUpdateAtom(blockValuesAtom)
-  const updateActiveBlocks = useUpdateAtom(activeBlocksAtom)
+  const createCustomBlock = useUpdateAtom(createCustomBlockAtom)
 
   const handleClose = () => {
     setIsOpen(false)
@@ -44,23 +35,7 @@ export default function CustomBlockModal(props: ICustomBlockModalProps) {
   } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = ({ name, category }) => {
-    const id = currentID.toString()
-    updateCustomBlocks((draft) => {
-      const item = draft
-
-      item[id] = { id, name, category, type: BlockType.Single, markdown: '' }
-      return (draft = item)
-    })
-    updateValuesBlock((draft) => {
-      const item = draft
-      item[id] = { id, name, markdown: '', type: BlockType.Single }
-    })
-    updateActiveBlocks((draft) => {
-      let item = draft
-      draft.unshift(id)
-      return (draft = item)
-    })
-    setCurrentID((draft: any) => (draft = draft + 1))
+    createCustomBlock({ name, category })
     handleClose()
   }
 

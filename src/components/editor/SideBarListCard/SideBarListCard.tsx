@@ -1,6 +1,6 @@
 import { IconButton } from '~/components/primitives'
 import { FiPlus } from 'react-icons/fi'
-import { activeBlocksAtom, inActiveBlocksAtom } from '~/store'
+import { makeBlockActiveAtom } from '~/store'
 import { useUpdateAtom } from 'jotai/utils'
 
 export interface ISideBarListCardProps {
@@ -9,18 +9,9 @@ export interface ISideBarListCardProps {
 }
 
 export function SideBarListCard({ name, id }: ISideBarListCardProps) {
-  const setactiveBlocksAtom = useUpdateAtom(activeBlocksAtom)
-  const setinActiveBlocksAtom = useUpdateAtom(inActiveBlocksAtom)
+  const makeBlockActive = useUpdateAtom(makeBlockActiveAtom)
   const handleClick = () => {
-    setinActiveBlocksAtom((draft) => {
-      const filtered = draft.filter((value) => value !== id)
-      return (draft = filtered)
-    })
-    setactiveBlocksAtom((draft) => {
-      const items = draft
-      items.push(id)
-      return (draft = items)
-    })
+    makeBlockActive({ id })
   }
   return (
     <li>

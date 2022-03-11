@@ -4,26 +4,26 @@ import { VscGripper } from 'react-icons/vsc'
 import { IconButton, ToolTip } from '~/components/primitives'
 import { Disclosure } from '@headlessui/react'
 import { clsx } from '~/utils'
-import { useSortable, arrayMove } from '@dnd-kit/sortable'
+import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { useAtomValue } from 'jotai'
-import { useUpdateAtom, useAtomCallback, selectAtom } from 'jotai/utils'
+import { useUpdateAtom, useAtomCallback } from 'jotai/utils'
 import {
-  activeBlocksAtom,
-  blockValuesAtom,
+  removeBlockAtom,
   allBlocks,
-  inActiveBlocksAtom,
-  customBlocksAtom,
+  deleteCustomBlockAtom,
+  moveBlockAtom,
+  handleResetAtom,
 } from '~/store'
-import { BlockType, Category } from '~/types'
+import { Category } from '~/types'
 import { CardEditableContent } from './CardEditableContent'
 
 export interface IDraggableCardProps {
   id: string
-  positon: number
+  position: number
 }
 
-export function DraggableCard({ id, positon }: IDraggableCardProps) {
+export function DraggableCard({ id, position }: IDraggableCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -32,10 +32,10 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
 
   const block = useAtomValue(allBlocks)[id]
   const name = block.name
-  const updateActiveBlock = useUpdateAtom(activeBlocksAtom)
-  const updateInactiveBlock = useUpdateAtom(inActiveBlocksAtom)
-  const updateBlockValues = useUpdateAtom(blockValuesAtom)
-  const updateCustomBlocks = useUpdateAtom(customBlocksAtom)
+  const deleteCustomBlock = useUpdateAtom(deleteCustomBlockAtom)
+  const moveBlock = useUpdateAtom(moveBlockAtom)
+  const resetBlock = useUpdateAtom(handleResetAtom)
+  const removeBlock = useUpdateAtom(removeBlockAtom)
 
   const defaultBlocks = useAtomCallback(
     React.useCallback((get) => {
@@ -45,74 +45,25 @@ export function DraggableCard({ id, positon }: IDraggableCardProps) {
   )
 
   const handleRemove = () => {
-    updateActiveBlock((draft) => {
-      const index = draft.findIndex((item) => item === id)
-      if (index !== -1) {
-        updateInactiveBlock((inActiveDraft) => {
-          const inactiveItems = inActiveDraft
-          inactiveItems.unshift(id)
-          return (inActiveDraft = inactiveItems)
-        })
-        const items = draft
-        items.splice(index, 1)
-        return (draft = items)
-      }
-    })
+    removeBlock({ id })
   }
   const handleDelete = () => {
-    updateActiveBlock((draft) => {
-      const index = draft.findIndex((item) => item === id)
-      if (index !== -1) {
-        updateBlockValues((blockValues) => {
-          let blockItems = blockValues
-          delete blockItems[id]
-          return (blockValues = blockItems)
-        })
-        updateCustomBlocks((blockValues) => {
-          let blockItems = blockValues
-          delete blockItems[id]
-          return (blockValues = blockItems)
-        })
-        const items = draft
-        items.splice(index, 1)
-        return (draft = items)
-      }
-    })
+    deleteCustomBlock({ id })
   }
   const handleUp = () => {
-    updateActiveBlock((draft) => {
-      const items = arrayMove(draft, positon, positon - 1)
-      return (draft = items)
-    })
+    moveBlock({ position, dir: 'up' })
   }
   const handleDown = () => {
-    updateActiveBlock((draft) => {
-      const items = arrayMove(draft, positon, positon + 1)
-      return (draft = items)
-    })
+    moveBlock({ position, dir: 'down' })
   }
   const handleReset = async () => {
     const blocks = await defaultBlocks()
-    updateBlockValues((draft) => {
-      const items = draft
-      const element = items[id]
-      const markdown = blocks[id]
-      const single = BlockType.Single
-      const multiple = BlockType.Multiple
-      if (element.type === single && markdown.type === single) {
-        element.markdown = markdown.markdown
-      } else if (element.type === multiple && markdown.type === multiple) {
-        element.snippets = markdown.snippets.filter(({ name, isActive }) => ({
-          name,
-          isActive,
-        }))
-      }
-      return (draft = items)
-    })
+    resetBlock({ id, blocks })
   }
 
   const isCustomBlock =
-    block.category === Category.CustomProject || Category.CustomGithubProfile ? true : false
+    block.category == (Category.CustomProject || Category.CustomGithubProfile) ? true : false
+
   return (
     <li ref={setNodeRef} style={style} {...attributes}>
       <div className="card border border-base-300 bg-base-100  shadow-md">

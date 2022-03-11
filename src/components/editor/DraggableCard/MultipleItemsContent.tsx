@@ -1,61 +1,42 @@
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import * as React from 'react'
 import { FiArrowLeft, FiArrowRight, FiPlus } from 'react-icons/fi'
 import { Button, IconButton } from '~/components/primitives'
-import { addItemsModalStateAtom, blockValuesAtom, allBlocks } from '~/store'
-import { BlockType, ExplicitMultipleBlock, ExplicitMultipleBlockValue } from '~/types'
+import {
+  addItemsModalStateAtom,
+  blockValuesAtom,
+  allBlocks,
+  moveMultipleBlockItemAtom,
+  toggleMultipleBlockItemAtom,
+} from '~/store'
+import { ExplicitMultipleBlock, ExplicitMultipleBlockValue } from '~/types'
 import { useUpdateAtom } from 'jotai/utils'
 import { MultipleItemsContentModal } from './MultipleItemsContentModal'
-import { arrayMove } from '@dnd-kit/sortable'
 
 export interface IMultipleItemsContentProps {
   id: string
 }
 
 export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
-  const [blockvalues, setBlockvalues] = useAtom(blockValuesAtom)
-
+  const blockvalues = useAtomValue(blockValuesAtom)
+  const moveItem = useUpdateAtom(moveMultipleBlockItemAtom)
+  const removeItem = useUpdateAtom(toggleMultipleBlockItemAtom)
+  const toggleModal = useUpdateAtom(addItemsModalStateAtom)
   const multipleBlockValue = blockvalues[id] as ExplicitMultipleBlockValue
-
   const block = useAtomValue(allBlocks)[id] as ExplicitMultipleBlock
 
   const mergeBlockAndValues = multipleBlockValue.snippets.map((snippet) => {
     const markdown = block.snippets.find((item) => item.name === snippet.name)?.markdown as string
-
     return { ...snippet, markdown }
   })
   const activeItems = mergeBlockAndValues.filter((value) => value.isActive)
-  const toggleModal = useUpdateAtom(addItemsModalStateAtom)
 
   const handleRemove = (name: string) => {
-    setBlockvalues((draft) => {
-      const obj = draft
-      const item = obj[id]
-      if (item.type === BlockType.Multiple) {
-        const snippets = item.snippets
-        const index = snippets.findIndex((snippet) => snippet.name === name)
-        if (index !== -1) {
-          snippets[index].isActive = false
-          return (draft = obj)
-        }
-      }
-    })
+    removeItem({ id, name })
   }
 
   const handleMoveBlock = (dir: 'left' | 'right', name: string) => {
-    setBlockvalues((draft) => {
-      const obj = draft
-      const item = obj[id]
-      if (item.type === BlockType.Multiple) {
-        const snippets = item.snippets
-        const position = snippets.findIndex((snippet) => snippet.name === name)
-        if (position !== -1) {
-          const moved = arrayMove(snippets, position, dir == 'left' ? position - 1 : position + 1)
-          item.snippets = moved
-          return (draft = obj)
-        }
-      }
-    })
+    moveItem({ dir, name, id })
   }
 
   return (
@@ -79,7 +60,11 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
                   size="xs"
                   scheme="success"
                   outline
-                  onClick={() => handleMoveBlock('left', data.name)}
+                  onClick={() => {
+                    console.log('left click')
+
+                    handleMoveBlock('left', data.name)
+                  }}
                 />
                 <IconButton
                   aria-label="move block right"
@@ -87,7 +72,11 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
                   size="xs"
                   scheme="success"
                   outline
-                  onClick={() => handleMoveBlock('right', data.name)}
+                  onClick={() => {
+                    console.log('right click')
+
+                    handleMoveBlock('right', data.name)
+                  }}
                 />
               </div>
               <div className="flex flex-col items-center justify-center space-y-1">
