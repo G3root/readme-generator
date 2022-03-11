@@ -1,34 +1,76 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![GitHub license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+![GitHub issues](https://img.shields.io/github/issues/G3root/readme-generator)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/G3root/readme-generator)
 
-## Getting Started
+![GitHub stars](https://img.shields.io/github/stars/G3root/readme-generator?style=social)
+![GitHub stars](https://img.shields.io/github/forks/G3root/readme-generator?style=social)
+![GitHub stars](https://img.shields.io/github/watchers/G3root/readme-generator?style=social)
+![GitHub follow](https://img.shields.io/github/followers/G3root?label=Follow&style=social)
 
-First, run the development server:
+## 🗎 Readme Generator
+
+A fully featured editor with drag and drop interface to create your README's with speed.
+
+## 🚀 Demo
+
+site link : [GitHub README Generator](https://nxt-readme.vercel.app/)
+
+## 🏃 Running Locally
 
 ```bash
-npm run dev
-# or
-yarn dev
+$ git clone https://github.com/G3root/readme-generator.git
+$ cd readme-generator
+$ yarn install
+$ yarn start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br>
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 🛠 Built With
 
-## Learn More
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Jotai](https://jotai.org/)
+- [DaisyUI](https://daisyui.com/)
+- [dnd kit](https://dndkit.com/)
+- [react-markdown](https://github.com/remarkjs/react-markdown)
 
-To learn more about Next.js, take a look at the following resources:
+<br>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Contribute
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+If you want to contribute to this app, you're always welcome!
+See [Contributing Guidelines](https://github.com/G3root/readme-generator/blob/master/CONTRIBUTING.md).
 
-## Deploy on Vercel
+<br>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📩 Contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I know that first and foremost you are looking for a tool to solve your problems, but if you enjoy
+it that much, why not tell us? We would love to hear from you 😉
+
+DM me at 👇
+
+* Twitter: <a href="https://twitter.com/nfs__21" target="_blank">@nfs__21</a>
+* Email: nafeesnazik21@gmail.com
+
+<br>
+
+## 🤗 Credits
+
+- Project inspiration [readme.so](https://readme.so/) and [github-profile-readme-generator](https://rahuldkjain.github.io/gh-profile-readme-generator/)
+
+<br>
+
+
+## 🙏 Support
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G473L1O)
+
+<hr>
+<p align="center">
+Developed with ❤️ in Sri Lanka 🇱🇰 
+</p>
