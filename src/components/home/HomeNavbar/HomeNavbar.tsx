@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NavbarLogo, ThemeSwitcher } from '~/components/common'
+import { LanguageSwitcher, NavbarLogo, ThemeSwitcher } from '~/components/common'
 
 export interface IHomeNavbarProps {}
 
@@ -11,6 +11,7 @@ export function HomeNavbar(props: IHomeNavbarProps) {
           <NavbarLogo />
         </div>
         <div>
+          <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
       </div>
