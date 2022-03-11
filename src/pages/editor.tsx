@@ -21,6 +21,8 @@ import { sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable'
 import { useAtomCallback, useUpdateAtom } from 'jotai/utils'
 import { useCallback } from 'react'
 import { activeBlocksAtom } from '~/store'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticProps } from 'next'
 
 const Editor: NextPage = () => {
   const moveBlocks = useUpdateAtom(activeBlocksAtom)
@@ -77,5 +79,11 @@ const Editor: NextPage = () => {
     </DndContext>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(locale ?? '', ['common', 'editor'])),
+  },
+})
 
 export default Editor

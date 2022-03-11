@@ -4,8 +4,7 @@ import { clsx } from '~/utils'
 import { RawTabPanel } from './RawTabPanel'
 import { PreviewTabPanel } from './PreviewTabPanel'
 import { EditorColumnTabPanel } from './EditorColumnTabPanel'
-
-const Tablist = ['editor', 'preview', 'raw']
+import { useTranslation } from 'next-i18next'
 
 const Panels = [
   { id: 1, component: <EditorColumnTabPanel /> },
@@ -16,6 +15,8 @@ const Panels = [
 export interface IPreviewColumnTabProps {}
 
 export function PreviewColumnTab(props: IPreviewColumnTabProps) {
+  const { t } = useTranslation('editor')
+  const Tablist = [t('editor-tab-title'), t('preview-tab-title'), t('raw-tab-title')]
   return (
     <Tab.Group>
       <Tab.List className="tabs">

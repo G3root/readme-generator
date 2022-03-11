@@ -11,6 +11,7 @@ import {
 } from '~/components/primitives'
 import { customBlockModalStateAtom } from '~/store'
 import CustomBlockModal from '../CustomBlockModal/CustomBlockModal'
+import { useTranslation } from 'next-i18next'
 
 export interface ISidebarFilterFormProps {
   blockType: 'all' | 'project' | 'profile'
@@ -41,6 +42,7 @@ export function SidebarFilterForm({
   handleBlockType,
 }: ISidebarFilterFormProps) {
   const [isOpen, toggleModal] = useAtom(customBlockModalStateAtom)
+  const { t } = useTranslation('editor')
   return (
     <>
       <FormControl>
@@ -71,7 +73,7 @@ export function SidebarFilterForm({
             <span className="mr-2">
               <FiPlus aria-hidden />
             </span>
-            Custom Block
+            {t('custom-block')}
           </Button>
         </div>
       </FormControl>
