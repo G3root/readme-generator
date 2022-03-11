@@ -4,6 +4,8 @@ import { FiDownload, FiClipboard, FiCheck } from 'react-icons/fi'
 import { useClipboard } from '~/hooks'
 import { useAtomCallback } from 'jotai/utils'
 import { markdownAtom } from '~/store'
+import { SiKofi } from 'react-icons/si'
+
 export interface IActionButtonsProps {}
 
 export function ActionButtons(props: IActionButtonsProps) {
@@ -32,6 +34,18 @@ export function ActionButtons(props: IActionButtonsProps) {
 
   return (
     <div className="mr-4 flex items-center space-x-2">
+      <a
+        href="https://ko-fi.com/nfs21"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-error btn-outline btn-xs flex lg:btn-sm"
+      >
+        <span className="mr-2">
+          <SiKofi size={20} aria-hidden={true} />
+        </span>
+        Support me
+      </a>
+
       <Button onClick={onCopy} outline className="btn-xs lg:btn-sm">
         <span className="mr-2">
           {isCopied ? (
