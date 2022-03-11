@@ -1,22 +1,24 @@
 import { atom } from 'jotai'
 import { BlockValuesObject, BlocksObjectWithId, BlockType } from '~/types'
-import { atomWithImmer } from 'jotai/immer'
+import { atomWithImmer, withImmer } from 'jotai/immer'
 import { atomWithToggle, generateBlockData, GenerateMarkdown } from '~/utils'
 import { arrayMove } from '@dnd-kit/sortable'
+import { atomWithStorage } from 'jotai/utils'
 
 const { nextId, inActiveBlocks, blockValues, defaultBlocks } = generateBlockData()
 
 // atoms which key of defaultBlocksAtom/customBlocksAtom which are active
-export const activeBlocksAtom = atomWithImmer<string[]>([])
+// @ts-ignore
+export const activeBlocksAtom = withImmer<string[]>(atomWithStorage('active', []))
 
 // atoms which key of defaultBlocksAtom/customBlocksAtom which are active
-export const inActiveBlocksAtom = atomWithImmer<string[]>(inActiveBlocks)
+export const inActiveBlocksAtom = withImmer<string[]>(atomWithStorage('inactive', inActiveBlocks))
 
 // key for customBlocksAtom which increments
-export const nextIdAtom = atomWithImmer(nextId)
+export const nextIdAtom = withImmer(atomWithStorage('id', nextId))
 
 //atom which holds editable values of customBlocksAtom/defaultBlocksAtom
-export const blockValuesAtom = atomWithImmer<BlockValuesObject>(blockValues)
+export const blockValuesAtom = withImmer<BlockValuesObject>(atomWithStorage('values', blockValues))
 
 // atoms which controls modal states
 export const blockConfigModalStateAtom = atomWithToggle(false)
@@ -27,7 +29,7 @@ export const customBlockModalStateAtom = atomWithToggle(false)
 export const defaultBlocksAtom = atomWithImmer<BlocksObjectWithId>(defaultBlocks)
 
 // atom which holds custom blocks
-export const customBlocksAtom = atomWithImmer<BlocksObjectWithId>({})
+export const customBlocksAtom = withImmer<BlocksObjectWithId>(atomWithStorage('custom-blocks', {}))
 
 // a derived atom which generates markdown from block value which are active
 export const markdownAtom = atom((get) => {
