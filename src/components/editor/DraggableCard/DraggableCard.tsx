@@ -62,7 +62,7 @@ export function DraggableCard({ id, position }: IDraggableCardProps) {
   }
 
   const isCustomBlock =
-    block.category == (Category.CustomProject || Category.CustomGithubProfile) ? true : false
+    block.category == Category.CustomProject || block.category == Category.CustomGithubProfile
 
   return (
     <li ref={setNodeRef} style={style} {...attributes}>

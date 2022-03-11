@@ -6,10 +6,10 @@ import { arrayMove } from '@dnd-kit/sortable'
 
 const { nextId, inActiveBlocks, blockValues, defaultBlocks } = generateBlockData()
 
-// atoms wich key of defaultBlocksAtom/customBlocksAtom which are active
+// atoms which key of defaultBlocksAtom/customBlocksAtom which are active
 export const activeBlocksAtom = atomWithImmer<string[]>([])
 
-// atoms wich key of defaultBlocksAtom/customBlocksAtom which are active
+// atoms which key of defaultBlocksAtom/customBlocksAtom which are active
 export const inActiveBlocksAtom = atomWithImmer<string[]>(inActiveBlocks)
 
 // key for customBlocksAtom which increments
@@ -18,15 +18,15 @@ export const nextIdAtom = atomWithImmer(nextId)
 //atom which holds editable values of customBlocksAtom/defaultBlocksAtom
 export const blockValuesAtom = atomWithImmer<BlockValuesObject>(blockValues)
 
-// atoms wich controls modal states
+// atoms which controls modal states
 export const blockConfigModalStateAtom = atomWithToggle(false)
 export const addItemsModalStateAtom = atomWithToggle(false)
 export const customBlockModalStateAtom = atomWithToggle(false)
 
-// atom wich holds default blocks
+// atom which holds default blocks
 export const defaultBlocksAtom = atomWithImmer<BlocksObjectWithId>(defaultBlocks)
 
-// atom wich holds custom blocks
+// atom which holds custom blocks
 export const customBlocksAtom = atomWithImmer<BlocksObjectWithId>({})
 
 // a derived atom which generates markdown from block value which are active
@@ -50,19 +50,19 @@ export const createCustomBlockAtom = atom(null, (get, set, { name, category }) =
   const id = get(nextIdAtom).toString()
   set(customBlocksAtom, (draft) => {
     draft[id] = { id, name, category, type: BlockType.Single, markdown: '' }
-    return draft
+    return (draft = draft)
   })
   set(blockValuesAtom, (draft) => {
     draft[id] = { id, name, markdown: '', type: BlockType.Single }
-    return draft
+    return (draft = draft)
   })
   set(activeBlocksAtom, (draft) => {
     draft.unshift(id)
-    return draft
+    return (draft = draft)
   })
   set(nextIdAtom, (draft) => {
-    draft + 1
-    return draft
+    let new_id = draft + 1
+    return (draft = new_id)
   })
 })
 
@@ -72,14 +72,14 @@ export const deleteCustomBlockAtom = atom(null, (get, set, { id }) => {
     if (index !== -1) {
       set(blockValuesAtom, (blockValues) => {
         delete blockValues[id]
-        return blockValues
+        return (blockValues = blockValues)
       })
       set(customBlocksAtom, (blockValues) => {
         delete blockValues[id]
-        return blockValues
+        return (blockValues = blockValues)
       })
       draft.splice(index, 1)
-      return draft
+      return (draft = draft)
     }
   })
 })
@@ -90,10 +90,10 @@ export const removeBlockAtom = atom(null, (get, set, { id }: { id: string }) => 
     if (index !== -1) {
       set(inActiveBlocksAtom, (inActiveDraft) => {
         inActiveDraft.unshift(id)
-        return inActiveDraft
+        return (inActiveDraft = inActiveDraft)
       })
       draft.splice(index, 1)
-      return draft
+      return (draft = draft)
     }
   })
 })
@@ -153,10 +153,10 @@ export const toggleMultipleBlockItemAtom = atom(
         if (index !== -1) {
           const currentValue = snippets[index].isActive
           snippets[index].isActive = !currentValue
-          return draft
+          return (draft = draft)
         }
       }
-      return draft
+      return (draft = draft)
     })
   }
 )
@@ -172,7 +172,7 @@ export const moveMultipleBlockItemAtom = atom(
         if (position !== -1) {
           const moved = arrayMove(snippets, position, dir == 'left' ? position - 1 : position + 1)
           item.snippets = moved
-          return draft
+          return (draft = draft)
         }
       }
     })
@@ -188,7 +188,7 @@ export const updateBlockValueMarkdownAtom = atom(
       if (element.type === single) {
         element.markdown = code
       }
-      return draft
+      return (draft = draft)
     })
   }
 )
@@ -204,9 +204,9 @@ export const updateOptionsValueAtom = atom(null, (get, set, { id, values }) => {
         const index = options.findIndex((item) => item.name === key)
         if (index !== -1) options[index].value = values[key]
       })
-      return draft
+      return (draft = draft)
     }
 
-    return draft
+    return (draft = draft)
   })
 })
