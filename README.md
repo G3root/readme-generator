@@ -26,8 +26,6 @@ $ yarn start
 
 <br>
 
-
-
 ## 🛠 Built With
 
 - [Next.js](https://nextjs.org/)
@@ -54,8 +52,8 @@ it that much, why not tell us? We would love to hear from you 😉
 
 DM me at 👇
 
-* Twitter: <a href="https://twitter.com/nfs__21" target="_blank">@nfs__21</a>
-* Email: nafeesnazik21@gmail.com
+- Twitter: <a href="https://twitter.com/nfs__21" target="_blank">@nfs\_\_21</a>
+- Email: nafeesnazik21@gmail.com
 
 <br>
 
@@ -64,7 +62,6 @@ DM me at 👇
 - Project inspiration [readme.so](https://readme.so/) and [github-profile-readme-generator](https://rahuldkjain.github.io/gh-profile-readme-generator/)
 
 <br>
-
 
 ## 🙏 Support
 
