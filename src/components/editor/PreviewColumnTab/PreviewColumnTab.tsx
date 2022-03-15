@@ -1,10 +1,16 @@
 import * as React from 'react'
 import { Tab } from '@headlessui/react'
 import { clsx } from '~/utils'
-import { RawTabPanel } from './RawTabPanel'
-import { PreviewTabPanel } from './PreviewTabPanel'
-import { EditorColumnTabPanel } from './EditorColumnTabPanel'
 import { useTranslation } from 'next-i18next'
+import dynamic from 'next/dynamic'
+
+const EditorColumnTabPanel = dynamic<{}>(() =>
+  import('./EditorColumnTabPanel').then((mod) => mod.EditorColumnTabPanel)
+)
+const PreviewTabPanel = dynamic<{}>(() =>
+  import('./PreviewTabPanel').then((mod) => mod.PreviewTabPanel)
+)
+const RawTabPanel = dynamic<{}>(() => import('./RawTabPanel').then((mod) => mod.RawTabPanel))
 
 const Panels = [
   { id: 1, component: <EditorColumnTabPanel /> },
