@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NavbarLogo, ThemeSwitcher } from '~/components/common'
+import { LanguageSwitcher, NavbarLogo, ThemeSwitcher } from '~/components/common'
 import { ActionButtons } from '~/components/editor'
 
 export interface IEditorNavbarProps {}
@@ -39,6 +39,7 @@ export function EditorNavbar(props: IEditorNavbarProps) {
           <div className="hidden lg:block">
             <ActionButtons />
           </div>
+          <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
       </nav>
