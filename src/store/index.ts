@@ -25,6 +25,9 @@ export const blockConfigModalStateAtom = atomWithToggle(false)
 export const addItemsModalStateAtom = atomWithToggle(false)
 export const customBlockModalStateAtom = atomWithToggle(false)
 
+// atoms which hide sidebar on mobile
+export const sidebarDrawerStateAtom = atomWithToggle(false)
+
 // atom which holds default blocks
 export const defaultBlocksAtom = atomWithImmer<BlocksObjectWithId>(defaultBlocks)
 
