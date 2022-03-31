@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react'
 import {
   OptionType,
@@ -102,9 +103,10 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
             label={label}
             id={name}
             type={option.textType as any}
-            key={name}
+            key={name}             
             {...form.getInputProps(name as any)}
           />
+          
         )
       }
     }
