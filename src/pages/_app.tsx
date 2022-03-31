@@ -1,36 +1,30 @@
 import '~/styles/markdown-color.css'
 import '~/styles/markdown.css'
-
+import React, { useState } from 'react'
 import type { AppProps } from 'next/app'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../../next-seo.config'
 import { appWithTranslation } from 'next-i18next'
-import { MantineProvider } from '@mantine/core'
-import { Global } from '@mantine/core'
+import { MantineProvider, ColorScheme, ColorSchemeProvider, Global } from '@mantine/core'
+import { useColorScheme, useLocalStorage } from '@mantine/hooks'
 
-import { ThemeProvider, useTheme } from 'next-themes'
-
-function MantineProviders({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme()
-  return (
-    <MantineProvider
-      theme={{
-        colorScheme: theme === 'dark' ? 'dark' : 'light',
-        fontFamily: 'Manrope, sans serif',
-      }}
-      withGlobalStyles
-      withNormalizeCSS
-    >
-      {children}
-    </MantineProvider>
-  )
-}
 function MyApp(props: AppProps) {
   const { Component, pageProps } = props
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+  })
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
 
   return (
-    <ThemeProvider>
-      <MantineProviders>
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider
+        theme={{ colorScheme, fontFamily: 'Manrope, sans serif' }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
         <DefaultSeo {...SEO} />
         <Global
           styles={[
@@ -46,8 +40,8 @@ function MyApp(props: AppProps) {
           ]}
         />
         <Component {...pageProps} />
-      </MantineProviders>
-    </ThemeProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   )
 }
 
