@@ -30,9 +30,8 @@ $ yarn start
 
 - [Next.js](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [TailwindCSS](https://tailwindcss.com/)
+- [Mantine](https://mantine.dev/)
 - [Jotai](https://jotai.org/)
-- [DaisyUI](https://daisyui.com/)
 - [dnd kit](https://dndkit.com/)
 - [react-markdown](https://github.com/remarkjs/react-markdown)
 
