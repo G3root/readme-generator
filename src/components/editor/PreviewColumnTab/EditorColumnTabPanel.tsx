@@ -4,6 +4,8 @@ import { DraggableCard } from '~/components/editor'
 import { activeBlocksAtom } from '~/store'
 
 import { SortableContext } from '@dnd-kit/sortable'
+import { Stack } from '@mantine/core'
+import { ScrollArea } from '@mantine/core'
 
 export interface IEditorColumnTabPanelProps {}
 
@@ -12,13 +14,21 @@ export function EditorColumnTabPanel(props: IEditorColumnTabPanelProps) {
 
   return (
     <SortableContext items={blockIds}>
-      <div className="h-[74vh] overflow-auto border p-4 lg:h-[83vh]">
-        <ul className="flex flex-col space-y-2">
+      <ScrollArea
+        sx={(theme) => ({
+          height: '70vh',
+          padding: theme.spacing.sm,
+          [theme.fn.largerThan('sm')]: {
+            height: '80vh',
+          },
+        })}
+      >
+        <Stack>
           {blockIds.map((data, index) => (
             <DraggableCard key={data} id={data} position={index} />
           ))}
-        </ul>
-      </div>
+        </Stack>
+      </ScrollArea>
     </SortableContext>
   )
 }

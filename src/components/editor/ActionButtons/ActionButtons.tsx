@@ -1,16 +1,17 @@
 import * as React from 'react'
-import { Button } from '~/components/primitives'
+
 import { FiDownload, FiClipboard, FiCheck } from 'react-icons/fi'
-import { useClipboard } from '~/hooks'
 import { useAtomCallback } from 'jotai/utils'
 import { markdownAtom } from '~/store'
 import { SiKofi } from 'react-icons/si'
 import { useTranslation } from 'next-i18next'
+import { Box, Group, Button } from '@mantine/core'
+import { useClipboard } from '@mantine/hooks'
 
 export interface IActionButtonsProps {}
 
 export function ActionButtons(props: IActionButtonsProps) {
-  const { handleCopy, isCopied } = useClipboard()
+  const clipboard = useClipboard({ timeout: 1500 })
   const { t } = useTranslation('editor')
 
   const generateMarkdown = useAtomCallback(
@@ -22,7 +23,7 @@ export function ActionButtons(props: IActionButtonsProps) {
 
   const onCopy = async () => {
     const markdown = await generateMarkdown()
-    handleCopy(markdown)
+    clipboard.copy(markdown)
   }
 
   const handleDownload = async () => {
@@ -35,35 +36,42 @@ export function ActionButtons(props: IActionButtonsProps) {
   }
 
   return (
-    <div className="mr-4 flex items-center space-x-2">
-      <a
-        href="https://ko-fi.com/nfs21"
+    <>
+      <Button
+        size="xs"
+        component="a"
         target="_blank"
         rel="noopener noreferrer"
-        className="btn btn-error btn-outline btn-xs flex lg:btn-sm"
+        href="https://ko-fi.com/nfs21"
+        leftIcon={<SiKofi size={20} aria-hidden />}
+        color="red"
+        variant="filled"
       >
-        <span className="mr-2">
-          <SiKofi size={20} aria-hidden={true} />
-        </span>
         {t('support-me')}
-      </a>
-
-      <Button onClick={onCopy} outline className="btn-xs lg:btn-sm">
-        <span className="mr-2">
-          {isCopied ? (
-            <FiCheck size={15} aria-hidden={true} />
-          ) : (
-            <FiClipboard size={15} aria-hidden={true} />
-          )}
-        </span>
-        {isCopied ? t('button-copied') : t('button-copy')}
       </Button>
-      <Button onClick={handleDownload} scheme="success" className="btn-xs lg:btn-sm">
-        <span className="mr-2">
-          <FiDownload size={15} aria-hidden={true} />
-        </span>
+      <Button
+        size="xs"
+        leftIcon={
+          clipboard.copied ? (
+            <FiCheck size={15} aria-hidden />
+          ) : (
+            <FiClipboard size={15} aria-hidden />
+          )
+        }
+        variant="light"
+        onClick={onCopy}
+      >
+        {clipboard.copied ? t('button-copied') : t('button-copy')}
+      </Button>
+      <Button
+        size="xs"
+        onClick={handleDownload}
+        variant="light"
+        color="cyan"
+        leftIcon={<FiDownload size={15} aria-hidden />}
+      >
         {t('button-download')}
       </Button>
-    </div>
+    </>
   )
 }

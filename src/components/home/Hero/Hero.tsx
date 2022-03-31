@@ -3,46 +3,117 @@ import Link from 'next/link'
 import * as React from 'react'
 import { DiGithubBadge } from 'react-icons/di'
 import { useTranslation } from 'next-i18next'
+import {
+  Container,
+  Group,
+  Button,
+  createStyles,
+  useMantineTheme,
+  Text,
+  Space,
+  Box,
+} from '@mantine/core'
+import { NextLink } from '@mantine/next'
+
+const BREAKPOINT = '@media (max-width: 960px)'
 
 export interface IHeroProps {}
 
 export function Hero(props: IHeroProps) {
+  const theme = useMantineTheme()
   const { t } = useTranslation('home')
   return (
-    <div className="mx-auto px-8 pt-10 pb-20">
-      <div className="xl:9/12 mx-auto w-full text-left md:w-11/12 lg:text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight  sm:text-5xl md:text-6xl">
-          <span className="block">{t('title-main')}</span>
-          <span className="block text-primary">{t('title-highlighted')}</span>
-        </h1>
-        <p className="mx-auto mt-3 max-w-md text-base  sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-          {t('message')}
-        </p>
+    <Container size="xl" px="16px" mt="xl">
+      <Container
+        sx={() => ({
+          textAlign: 'left',
+          ['@media (min-width: 1024px)']: {
+            textAlign: 'center',
+          },
+        })}
+      >
+        <Box
+          component="h1"
+          sx={() => ({
+            fontSize: '2.25rem',
+            lineHeight: '2.5rem',
+            fontWeight: 800,
+            letterSpacing: '-.025em',
+            textAlign: 'left',
+            ['@media (min-width: 640px)']: {
+              fontSize: '3rem',
+              lineHeight: 1,
+            },
+            ['@media (min-width: 768px)']: {
+              fontSize: '4rem',
+              lineHeight: 1,
+            },
+            ['@media (min-width: 1024px)']: {
+              textAlign: 'center',
+            },
+          })}
+        >
+          <Box>Create readme files</Box>
+          <Box
+            sx={{
+              backgroundImage: 'linear-gradient(to right, rgb(96, 165, 250), rgb(52, 211, 153))',
+              backgroundClip: 'text',
+              color: 'transparent',
+            }}
+          >
+            with speed
+          </Box>
+        </Box>
+        <Text
+          sx={() => ({
+            fontSize: 24,
+            color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
+            [BREAKPOINT]: {
+              fontSize: 18,
+            },
+          })}
+        >
+          All in one tool to quickly generate a readme for your project or github profile
+        </Text>
+        <Space h="lg" />
+        <Group position="center">
+          <Button
+            component={NextLink}
+            href="/editor"
+            size="xl"
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'teal', deg: 105 }}
+            sx={() => ({
+              width: '100%',
+              [theme.fn.largerThan('sm')]: {
+                width: 'auto',
+              },
+            })}
+          >
+            Get started
+          </Button>
 
-        <div className="mt-10 flex flex-col items-center justify-center space-x-0 space-y-4 sm:flex-row   sm:space-y-0 sm:space-x-2">
-          <Link href="/editor">
-            <a className=" btn btn-success btn-lg w-full sm:w-auto">{t('get-started')}</a>
-          </Link>
-          <a
-            href="https://github.com/G3root"
+          <Button
+            component="a"
+            href="https://github.com/G3root/readme-generator"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline  btn-lg w-full sm:w-auto"
+            color={theme.colorScheme === 'dark' ? 'gray' : 'dark'}
+            size="xl"
+            variant="outline"
+            radius="md"
+            leftIcon={<DiGithubBadge size={35} />}
+            sx={() => ({
+              width: '100%',
+              [theme.fn.largerThan('sm')]: {
+                width: 'auto',
+              },
+            })}
           >
-            <span className="mr-2">
-              <DiGithubBadge size="2rem" />
-            </span>
-            Github
-          </a>
-        </div>
-      </div>
-      <div className=" mx-auto mt-20 w-10/12 text-center">
-        <img
-          src="/images/editor-screenshot.png"
-          alt="editor page screenshot"
-          className="w-full rounded-lg shadow-2xl"
-        />
-      </div>
-    </div>
+            GitHub
+          </Button>
+        </Group>
+      </Container>
+    </Container>
   )
 }

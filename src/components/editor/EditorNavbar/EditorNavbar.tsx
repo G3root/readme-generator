@@ -1,48 +1,44 @@
 import * as React from 'react'
 import { LanguageSwitcher, NavbarLogo, ThemeSwitcher } from '~/components/common'
 import { ActionButtons } from '~/components/editor'
+import { Header, Box, MediaQuery, Burger, useMantineTheme, Group } from '@mantine/core'
+import { useAtom } from 'jotai'
+import { sidebarDrawerStateAtom } from '~/store'
 
 export interface IEditorNavbarProps {}
 
 export function EditorNavbar(props: IEditorNavbarProps) {
+  const theme = useMantineTheme()
+  const [isOpened, toggle] = useAtom(sidebarDrawerStateAtom)
   return (
-    <div className="flex h-16 w-full justify-center bg-base-100 bg-opacity-90 text-base-content backdrop-blur transition-all duration-100">
-      <nav className="navbar w-full">
-        <div className="flex flex-1 gap-1 lg:gap-2">
-          <span
-            className="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]"
-            data-tip="Menu"
-          >
-            <label htmlFor="drawer" className="btn btn-ghost btn-square drawer-button lg:hidden">
-              <svg
-                width={20}
-                height={20}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="inline-block h-5 w-5 stroke-current lg:h-6 lg:w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </label>
-          </span>
-          <div className="flex items-center gap-2 lg:hidden">
+    <Header height={70} p="md">
+      <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+        <Group align="center" position="apart" sx={{ width: '100%' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+              <Burger
+                opened={isOpened}
+                onClick={() => toggle()}
+                size="sm"
+                color={theme.colors.gray[6]}
+                mr="xl"
+              />
+            </MediaQuery>
+
             <NavbarLogo />
-          </div>
-        </div>
-        <div className="flex-0">
-          <div className="hidden lg:block">
-            <ActionButtons />
-          </div>
-          <LanguageSwitcher />
-          <ThemeSwitcher />
-        </div>
-      </nav>
-    </div>
+          </Box>
+
+          <Group position="center" spacing="sm">
+            <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+              <Group>
+                <ActionButtons />
+              </Group>
+            </MediaQuery>
+            <LanguageSwitcher />
+            <ThemeSwitcher />
+          </Group>
+        </Group>
+      </Box>
+    </Header>
   )
 }

@@ -1,10 +1,6 @@
+import * as React from 'react'
 import type { NextPage } from 'next'
-import {
-  EditorNavbar,
-  MobileOnlyHeader,
-  PreviewColumnTab,
-  SideBarContent,
-} from '~/components/editor'
+import { MobileOnlyHeader, PreviewColumnTab } from '~/components/editor'
 import { EditorLayout } from '~/components/layouts'
 import {
   closestCenter,
@@ -64,17 +60,8 @@ const Editor: NextPage = () => {
       modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
     >
       <EditorLayout>
-        <div
-          className="drawer-content"
-          style={{ scrollBehavior: 'smooth', scrollPaddingTop: '5rem' }}
-        >
-          <EditorNavbar />
-          <MobileOnlyHeader />
-          <div className="px-6 ">
-            <PreviewColumnTab />
-          </div>
-        </div>
-        <SideBarContent />
+        <MobileOnlyHeader />
+        <PreviewColumnTab />
       </EditorLayout>
     </DndContext>
   )

@@ -1,7 +1,6 @@
 import { useAtomValue } from 'jotai'
 import * as React from 'react'
 import { FiArrowLeft, FiArrowRight, FiPlus } from 'react-icons/fi'
-import { Button, IconButton } from '~/components/primitives'
 import {
   addItemsModalStateAtom,
   blockValuesAtom,
@@ -12,6 +11,7 @@ import {
 import { ExplicitMultipleBlock, ExplicitMultipleBlockValue } from '~/types'
 import { useUpdateAtom } from 'jotai/utils'
 import { MultipleItemsContentModal } from './MultipleItemsContentModal'
+import { Box, Button, Grid, Group, Space, Card, Text, Stack, ActionIcon } from '@mantine/core'
 
 export interface IMultipleItemsContentProps {
   id: string
@@ -40,65 +40,62 @@ export function MultipleItemsContent({ id }: IMultipleItemsContentProps) {
   }
 
   return (
-    <div className="cursor-auto">
-      <div className="mb-3 flex items-center justify-end py-3">
-        <Button onClick={() => toggleModal()} size="sm" scheme="success">
-          <span className="mr-2">
-            <FiPlus />
-          </span>
-          add Items
+    <Box>
+      <Group position="right">
+        <Button leftIcon={<FiPlus />} onClick={() => toggleModal()} size="sm">
+          Add Items
         </Button>
-      </div>
-      <div className="flex flex-wrap items-center ">
+      </Group>
+      <Space h="sm" />
+      <Grid>
         {activeItems.map((data) => (
-          <div key={data.name} className="card  mr-2 mb-2 bg-base-100 shadow-xl">
-            <div className="card-body  ">
-              <div className="flex items-center justify-between">
-                <IconButton
-                  aria-label="move block left"
-                  Icon={<FiArrowLeft />}
-                  size="xs"
-                  scheme="success"
-                  outline
-                  onClick={() => {
-                    console.log('left click')
-
-                    handleMoveBlock('left', data.name)
-                  }}
-                />
-                <IconButton
-                  aria-label="move block right"
-                  Icon={<FiArrowRight />}
-                  size="xs"
-                  scheme="success"
-                  outline
-                  onClick={() => {
-                    console.log('right click')
-
-                    handleMoveBlock('right', data.name)
-                  }}
-                />
-              </div>
-              <div className="flex flex-col items-center justify-center space-y-1">
-                <p>{data.name}</p>
-                <div dangerouslySetInnerHTML={{ __html: data.markdown }} />
-              </div>
-
-              <div className="card-actions">
-                <Button
-                  type="button"
-                  onClick={() => handleRemove(data.name)}
-                  scheme="error"
-                  size="xs"
-                >
-                  remove
-                </Button>
-              </div>
+          <Grid.Col key={data.name} span={2}>
+            <div>
+              <Card shadow="sm" p="lg">
+                <Stack>
+                  <Group position="apart">
+                    <ActionIcon
+                      variant="light"
+                      color="teal"
+                      aria-label="move block left"
+                      onClick={() => {
+                        handleMoveBlock('left', data.name)
+                      }}
+                    >
+                      <FiArrowLeft aria-hidden />
+                    </ActionIcon>
+                    <ActionIcon
+                      variant="light"
+                      color="teal"
+                      aria-label="move block right"
+                      onClick={() => {
+                        handleMoveBlock('right', data.name)
+                      }}
+                    >
+                      <FiArrowRight aria-hidden />
+                    </ActionIcon>
+                  </Group>
+                  <Box>
+                    <Stack align="center">
+                      <Text weight={500}>{data.name}</Text>
+                      <div dangerouslySetInnerHTML={{ __html: data.markdown }} />
+                    </Stack>
+                  </Box>
+                  <Button
+                    variant="light"
+                    color="red"
+                    onClick={() => handleRemove(data.name)}
+                    size="xs"
+                  >
+                    remove
+                  </Button>
+                </Stack>
+              </Card>
             </div>
-          </div>
+          </Grid.Col>
         ))}
-      </div>
+      </Grid>
       <MultipleItemsContentModal id={id} />
-    </div>
+    </Box>
   )
 }
