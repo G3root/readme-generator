@@ -1,22 +1,80 @@
 import * as React from 'react'
-import { NavbarLogo } from '~/components/common'
 import { SidebarFilterForm, SideBarListCard } from '~/components/editor'
 import { Category } from '~/types'
 import { inActiveBlocksAtom, allBlocks } from '~/store'
 import { useAtomValue } from 'jotai/utils'
+import { Navbar, ScrollArea, Box, List } from '@mantine/core'
 
 export interface ISideBarContentProps {}
+
+interface filterBlockArgs {
+  item: { id: string; name: string; category: Category }[]
+  blockType: 'all' | 'project' | 'profile'
+  query: string
+}
+
+const filterBlock = ({ item, blockType, query }: filterBlockArgs) => {
+  let blocks = []
+  for (let index = 0; index < item.length; index++) {
+    const element = item[index]
+    const isQueryEmpty = query === ''
+    const category = element.category
+    const isProject = category === Category.Project || category === Category.CustomProject
+    const isProfile =
+      category == Category.GithubProfile || category === Category.CustomGithubProfile
+    const isMatches = element.name.toLowerCase().includes(query.toLowerCase())
+
+    switch (blockType) {
+      case 'project':
+        if (isProject) {
+          if (isQueryEmpty) {
+            blocks.push(element)
+          } else {
+            if (isMatches) {
+              blocks.push(element)
+            }
+          }
+        }
+        break
+
+      case 'profile':
+        if (isProfile) {
+          if (isQueryEmpty) {
+            blocks.push(element)
+          } else {
+            if (isMatches) {
+              blocks.push(element)
+            }
+          }
+        }
+        break
+      default:
+        if (isQueryEmpty) {
+          blocks.push(element)
+        } else {
+          if (isMatches) {
+            blocks.push(element)
+          }
+        }
+        break
+    }
+  }
+  return blocks
+}
 
 export function SideBarContent(props: ISideBarContentProps) {
   const list = useAtomValue(inActiveBlocksAtom)
   const blocks = useAtomValue(allBlocks)
-  const [query, setquery] = React.useState('')
+  const [query, setQuery] = React.useState('')
   const [blockType, setBlockType] = React.useState<'all' | 'project' | 'profile'>('all')
 
-  const handleBlockType = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setBlockType(e.target.value as any)
+  const handleBlockType = (value: 'all' | 'project' | 'profile' | null) => {
+    if (value !== null) {
+      setBlockType(value)
+    }
+  }
 
-  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => setquery(e.target.value)
+  const handleQuery = (e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.currentTarget.value)
 
   const data = React.useMemo(
     () =>
@@ -29,49 +87,29 @@ export function SideBarContent(props: ISideBarContentProps) {
   )
 
   const filteredData = React.useMemo(
-    () =>
-      data.filter((element) => {
-        if (blockType === 'project') {
-          return query === ''
-            ? element.category === Category.Project || Category.CustomProject
-            : element.category === Category.Project ||
-                (Category.CustomProject && element.name.toLowerCase().includes(query.toLowerCase()))
-        } else if (blockType === 'profile') {
-          return query === ''
-            ? element.category === Category.GithubProfile || Category.CustomGithubProfile
-            : element.category === Category.GithubProfile ||
-                (Category.CustomGithubProfile &&
-                  element.name.toLowerCase().includes(query.toLowerCase()))
-        } else {
-          return query === '' ? element : element.name.toLowerCase().includes(query.toLowerCase())
-        }
-      }),
-    [blockType, query, data]
+    () => filterBlock({ item: data, blockType, query }),
+    [blockType, data, query]
   )
 
   return (
-    <div className="drawer-side" style={{ scrollBehavior: 'smooth', scrollPaddingTop: '5rem' }}>
-      <label htmlFor="drawer" className="drawer-overlay" />
-      <aside className="w-80 bg-base-200">
-        <div className="sticky top-0 z-20 hidden items-center gap-2 bg-base-200 bg-opacity-90 px-4 py-2 backdrop-blur lg:flex ">
-          <NavbarLogo />
-        </div>
-        <div className="grid-row-2 sticky top-0 z-10 grid w-full gap-y-2 bg-base-200 bg-opacity-90 py-3 px-2 backdrop-blur lg:top-10  ">
-          <SidebarFilterForm
-            blockType={blockType}
-            query={query}
-            handleBlockType={handleBlockType}
-            handleQuery={handleQuery}
-          />
-        </div>
-        <div className="h-4" />
-        <ul className="menu menu-compact flex flex-col p-0 px-4">
-          {filteredData.map(({ id, name }) => (
-            <SideBarListCard id={id} name={name} key={id} />
-          ))}
-        </ul>
-        <div className="pointer-events-none sticky bottom-0 flex h-20 bg-gradient-to-t from-base-200 to-transparent" />
-      </aside>
-    </div>
+    <>
+      <Navbar.Section>
+        <SidebarFilterForm
+          blockType={blockType}
+          query={query}
+          handleBlockType={handleBlockType}
+          handleQuery={handleQuery}
+        />
+      </Navbar.Section>
+      <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+        <Box py="md">
+          <List listStyleType="none">
+            {filteredData.map(({ id, name }) => (
+              <SideBarListCard id={id} name={name} key={id} />
+            ))}
+          </List>
+        </Box>
+      </Navbar.Section>
+    </>
   )
 }

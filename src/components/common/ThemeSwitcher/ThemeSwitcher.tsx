@@ -1,21 +1,20 @@
 import * as React from 'react'
-import { Button } from '~/components/primitives'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { useTheme } from 'next-themes'
+import { ActionIcon, useMantineColorScheme } from '@mantine/core'
 
 export interface IThemeSwitcherProps {}
 
 export function ThemeSwitcher(props: IThemeSwitcherProps) {
-  const { resolvedTheme, setTheme } = useTheme()
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+
   return (
-    <Button
+    <ActionIcon
       aria-label="Toggle Dark Mode"
-      type="button"
-      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-      className="btn btn-ghost btn-square btn-sm"
+      variant="default"
+      onClick={() => toggleColorScheme()}
+      size={30}
     >
-      <FiMoon className="hidden-in-dark" aria-hidden="true" size={18} />
-      <FiSun className="hidden-in-light" aria-hidden="true" size={18} />
-    </Button>
+      {colorScheme === 'dark' ? <FiSun size={16} aria-hidden /> : <FiMoon size={16} aria-hidden />}
+    </ActionIcon>
   )
 }

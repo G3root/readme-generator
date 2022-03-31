@@ -1,6 +1,4 @@
 import * as React from 'react'
-import { Dialog } from '@headlessui/react'
-import { Button } from '~/components/primitives'
 import {
   OptionType,
   Options,
@@ -8,8 +6,6 @@ import {
   ExplicitSingleBlock,
   ExplicitSingleBlockValue,
 } from '~/types'
-import { useForm, SubmitHandler, Controller } from 'react-hook-form'
-import { FormControl, Label, Select, TextInput } from '~/components/primitives'
 import {
   blockConfigModalStateAtom,
   blockValuesAtom,
@@ -17,8 +13,18 @@ import {
   updateOptionsValueAtom,
 } from '~/store'
 import { useAtom, useAtomValue } from 'jotai'
-import { ModalBase } from '~/components/common'
 import { useUpdateAtom } from 'jotai/utils'
+import {
+  Modal,
+  Button,
+  TextInput,
+  Stack,
+  Select,
+  Checkbox,
+  ColorInput,
+  NumberInput,
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
 
 export interface ISingleItemContentModalProps {
   id: string
@@ -39,20 +45,9 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
 
   const setOptionsValue = useUpdateAtom(updateOptionsValueAtom)
 
-  const {
-    register,
-    handleSubmit,
-
-    formState: { errors },
-    control,
-  } = useForm()
-
-  const onSubmit: SubmitHandler<any> = (data) => {
-    console.log(data)
-
-    setOptionsValue({ id, values: data })
-    handleClose()
-  }
+  const form = useForm({
+    initialValues: {},
+  })
 
   let data = []
 
@@ -65,73 +60,71 @@ export function SingleItemContentModal({ id }: ISingleItemContentModalProps) {
     const label = option.label
 
     if (type === Options.Select) {
+      const selectData = option.options.map((item) => ({ label: item, value: item }))
       data.push(
-        <FormControl key={name}>
-          <Label id={name} labelText={label} />
-          <Select defaultValue={value as string} {...register(name)} id={name}>
-            {option.options.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </Select>
-        </FormControl>
+        <Select
+          defaultValue={value as string}
+          label={label}
+          id={name}
+          key={name}
+          data={selectData}
+          {...form.getInputProps(name as any)}
+        />
       )
     }
     if (type === Options.CheckBox) {
       data.push(
-        <FormControl key={name}>
-          <label className="label cursor-pointer">
-            <span className="label-text">{label}</span>
-            <Controller
-              control={control}
-              name={name}
-              defaultValue={value}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  onChange={(e) => {
-                    return field.onChange(e.target.checked)
-                  }}
-                  defaultChecked={field.value ? true : false}
-                  type="checkbox"
-                  className="checkbox"
-                />
-              )}
-            />
-          </label>
-        </FormControl>
+        <Checkbox
+          defaultValue={value as any}
+          key={name}
+          label={label}
+          {...form.getInputProps(name as any, { type: 'checkbox' })}
+        />
       )
     }
+
     if (type === Options.Text) {
-      data.push(
-        <FormControl key={name}>
-          <Label id={name} labelText={label} />
+      if (option.textType === 'color') {
+        data.push(
+          <ColorInput
+            defaultValue={value as string}
+            label={label}
+            id={name}
+            type={option.textType as any}
+            key={name}
+            {...form.getInputProps(name as any)}
+          />
+        )
+      } else {
+        data.push(
           <TextInput
             defaultValue={value as string}
-            {...register(name)}
+            label={label}
             id={name}
-            type={option.textType}
+            type={option.textType as any}
+            key={name}
+            {...form.getInputProps(name as any)}
           />
-        </FormControl>
-      )
+        )
+      }
     }
   }
 
   return (
-    <ModalBase isOpen={isOpen} handleClose={handleClose}>
-      <form className="plg:px-8 space-y-2 px-6 " onSubmit={handleSubmit(onSubmit)}>
-        <Dialog.Title as="h3" className="text-xl font-medium ">
-          Update configs
-        </Dialog.Title>
-
-        {data}
-        <div className=" flex items-center justify-end">
+    <Modal centered opened={isOpen} onClose={() => handleClose()} title="Update configs">
+      <form
+        onSubmit={form.onSubmit((data) => {
+          setOptionsValue({ id, values: data })
+          handleClose()
+        })}
+      >
+        <Stack>
+          {data}
           <Button className="mt-2" type="submit">
-            update config
+            Save Config
           </Button>
-        </div>
+        </Stack>
       </form>
-    </ModalBase>
+    </Modal>
   )
 }

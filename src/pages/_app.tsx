@@ -1,4 +1,3 @@
-import '~/styles/globals.css'
 import '~/styles/markdown-color.css'
 import '~/styles/markdown.css'
 import { getCookie, setCookies } from 'cookies-next'
@@ -9,6 +8,7 @@ import { DefaultSeo } from 'next-seo'
 import SEO from '../../next-seo.config'
 import { appWithTranslation } from 'next-i18next'
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core'
+import { Global } from '@mantine/core'
 function MyApp(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme)
@@ -20,8 +20,25 @@ function MyApp(props: AppProps & { colorScheme: ColorScheme }) {
   }
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider
+        theme={{ colorScheme, fontFamily: 'Manrope, sans serif' }}
+        withGlobalStyles
+        withNormalizeCSS
+      >
         <DefaultSeo {...SEO} />
+        <Global
+          styles={[
+            {
+              '@font-face': {
+                src: `url('/fonts/Manrope.woff2') format("woff2")`,
+                fontFamily: 'Manrope',
+                fontStyle: 'normal',
+                fontWeight: '100 900',
+                fontDisplay: 'swap',
+              },
+            },
+          ]}
+        />
         <Component {...pageProps} />
       </MantineProvider>
     </ColorSchemeProvider>

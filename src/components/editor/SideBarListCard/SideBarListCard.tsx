@@ -1,7 +1,7 @@
-import { IconButton } from '~/components/primitives'
 import { FiPlus } from 'react-icons/fi'
 import { makeBlockActiveAtom } from '~/store'
 import { useUpdateAtom } from 'jotai/utils'
+import { ThemeIcon, UnstyledButton, Group, Text, ListItem, Box } from '@mantine/core'
 
 export interface ISideBarListCardProps {
   name: string
@@ -14,19 +14,34 @@ export function SideBarListCard({ name, id }: ISideBarListCardProps) {
     makeBlockActive({ id })
   }
   return (
-    <li>
-      <div className="flex gap-4 " style={{ cursor: 'default !important' }}>
-        <span className="flex-none">
-          <IconButton
-            scheme="success"
-            size="sm"
-            aria-label="add item"
-            Icon={<FiPlus />}
-            onClick={handleClick}
-          />
-        </span>
-        <span className="flex-1">{name}</span>
-      </div>
-    </li>
+    <ListItem>
+      <UnstyledButton
+        sx={(theme) => ({
+          display: 'block',
+          width: '100%',
+          padding: theme.spacing.xs,
+          borderRadius: theme.radius.sm,
+          color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+
+          '&:hover': {
+            backgroundColor:
+              theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+          },
+        })}
+        onClick={handleClick}
+      >
+        <Group spacing="xs">
+          <Box component="span" sx={{ flex: 'none' }}>
+            <ThemeIcon color="teal">
+              <FiPlus />
+            </ThemeIcon>
+          </Box>
+
+          <Box component="span" sx={{ flex: '1 1 0%' }}>
+            <Text size="sm">{name}</Text>
+          </Box>
+        </Group>
+      </UnstyledButton>
+    </ListItem>
   )
 }

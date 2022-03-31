@@ -13,6 +13,7 @@ import rehypeRewrite from 'rehype-rewrite'
 import copyTextToClipboard from 'copy-text-to-clipboard'
 import { useAtomValue } from 'jotai'
 import { markdownAtom } from '~/store'
+import { ScrollArea } from '@mantine/core'
 
 const rehypeRewriteHandle = (
   node: ElementContent,
@@ -53,8 +54,17 @@ export interface IPreviewTabPanelProps {}
 export function PreviewTabPanel(props: IPreviewTabPanelProps) {
   const markdown = useAtomValue(markdownAtom)
   return (
-    <div className="h-[74vh] overflow-auto border p-4 lg:h-[83vh]">
-      <div className="wmde-markdown wmde-markdown-color p-2">
+    <ScrollArea
+      sx={(theme) => ({
+        height: '70vh',
+        padding: theme.spacing.sm,
+
+        [theme.fn.largerThan('sm')]: {
+          height: '80vh',
+        },
+      })}
+    >
+      <div className="wmde-markdown wmde-markdown-color">
         <ReactMarkdown
           rehypePlugins={[
             [rehypePrism, { ignoreMissing: true }],
@@ -68,7 +78,7 @@ export function PreviewTabPanel(props: IPreviewTabPanelProps) {
           children={markdown}
         />
       </div>
-    </div>
+    </ScrollArea>
   )
 }
 

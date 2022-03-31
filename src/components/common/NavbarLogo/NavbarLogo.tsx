@@ -1,16 +1,25 @@
 import * as React from 'react'
-import Link from 'next/link'
+import { Text } from '@mantine/core'
+import { NextLink } from '@mantine/next'
 
 export interface INavbarLogoProps {}
 
 export function NavbarLogo(props: INavbarLogoProps) {
   return (
-    <Link href="/">
-      <a className="flex-0 btn btn-ghost px-2">
-        <div className="font-title inline-flex text-lg text-primary transition-all duration-200 lg:text-3xl">
-          <span className="lowercase">README</span>
-        </div>
-      </a>
-    </Link>
+    <Text
+      component={NextLink}
+      href="/"
+      sx={{
+        fontSize: '1.125rem',
+        lineHeight: '1.75rem',
+        fontWeight: 800,
+        ['@media (min-width: 1024px)']: {
+          fontSize: '1.875rem',
+          lineHeight: '2.25rem',
+        },
+      }}
+    >
+      Readme
+    </Text>
   )
 }

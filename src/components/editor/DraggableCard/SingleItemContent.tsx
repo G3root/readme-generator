@@ -4,9 +4,8 @@ import pupa from 'pupa'
 import { useUpdateAtom } from 'jotai/utils'
 import { blockConfigModalStateAtom, blockValuesAtom, updateBlockValueMarkdownAtom } from '~/store'
 import { useAtomValue } from 'jotai'
-import { Button } from '~/components/primitives'
 import { SingleItemContentModal } from './SingleItemContentModal'
-import { clsx } from '~/utils'
+import { Box, Space, Textarea, Button, Group } from '@mantine/core'
 
 export interface ISingleItemContentProps {
   id: string
@@ -45,25 +44,23 @@ export function SingleItemContent({ id }: ISingleItemContentProps) {
   }
 
   return (
-    <div className="cursor-auto text-xs">
+    <Box>
       {options ? (
-        <div className="mb-3 flex items-center justify-end py-3">
-          <Button onClick={() => toggleModal()} size="sm">
-            update configs
-          </Button>
-        </div>
+        <>
+          <Group position="right">
+            <Button onClick={() => toggleModal()}>update configs</Button>
+          </Group>
+          <Space h="sm" />
+        </>
       ) : null}
-      <textarea
+      <Textarea
         value={markdown}
-        onChange={(e) => onEditableChange(e.target.value)}
-        className={clsx(
-          'textarea textarea-bordered h-full w-full p-3',
-          options && 'textarea-disabled'
-        )}
-        rows={5}
+        onChange={(e) => onEditableChange(e.currentTarget.value)}
+        autosize
+        maxRows={12}
         disabled={options ? true : false}
       />
       {options ? <SingleItemContentModal id={id} /> : null}
-    </div>
+    </Box>
   )
 }
