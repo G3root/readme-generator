@@ -1,30 +1,36 @@
 import '~/styles/markdown-color.css'
 import '~/styles/markdown.css'
-import { getCookie, setCookies } from 'cookies-next'
-import { useState } from 'react'
-import { GetServerSidePropsContext } from 'next'
+
 import type { AppProps } from 'next/app'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../../next-seo.config'
 import { appWithTranslation } from 'next-i18next'
-import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core'
+import { MantineProvider } from '@mantine/core'
 import { Global } from '@mantine/core'
-function MyApp(props: AppProps & { colorScheme: ColorScheme }) {
-  const { Component, pageProps } = props
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme)
 
-  const toggleColorScheme = (value?: ColorScheme) => {
-    const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark')
-    setColorScheme(nextColorScheme)
-    setCookies('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
-  }
+import { ThemeProvider, useTheme } from 'next-themes'
+
+function MantineProviders({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
   return (
-    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider
-        theme={{ colorScheme, fontFamily: 'Manrope, sans serif' }}
-        withGlobalStyles
-        withNormalizeCSS
-      >
+    <MantineProvider
+      theme={{
+        colorScheme: theme === 'dark' ? 'dark' : 'light',
+        fontFamily: 'Manrope, sans serif',
+      }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
+      {children}
+    </MantineProvider>
+  )
+}
+function MyApp(props: AppProps) {
+  const { Component, pageProps } = props
+
+  return (
+    <ThemeProvider>
+      <MantineProviders>
         <DefaultSeo {...SEO} />
         <Global
           styles={[
@@ -40,13 +46,9 @@ function MyApp(props: AppProps & { colorScheme: ColorScheme }) {
           ]}
         />
         <Component {...pageProps} />
-      </MantineProvider>
-    </ColorSchemeProvider>
+      </MantineProviders>
+    </ThemeProvider>
   )
 }
-
-MyApp.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
-  colorScheme: getCookie('mantine-color-scheme', ctx) || 'light',
-})
 
 export default appWithTranslation(MyApp)

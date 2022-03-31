@@ -1,20 +1,26 @@
 import * as React from 'react'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { ActionIcon, useMantineColorScheme } from '@mantine/core'
-
+import { ActionIcon } from '@mantine/core'
+import { useTheme } from 'next-themes'
 export interface IThemeSwitcherProps {}
 
 export function ThemeSwitcher(props: IThemeSwitcherProps) {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+  const { theme, setTheme } = useTheme()
 
   return (
     <ActionIcon
       aria-label="Toggle Dark Mode"
       variant="default"
-      onClick={() => toggleColorScheme()}
+      onClick={() => {
+        if (theme === 'dark') {
+          setTheme('light')
+        } else {
+          setTheme('dark')
+        }
+      }}
       size={30}
     >
-      {colorScheme === 'dark' ? <FiSun size={16} aria-hidden /> : <FiMoon size={16} aria-hidden />}
+      {theme === 'dark' ? <FiSun size={16} aria-hidden /> : <FiMoon size={16} aria-hidden />}
     </ActionIcon>
   )
 }
