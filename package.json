@@ -16,6 +16,7 @@
     "@dnd-kit/sortable": "^6.0.0",
     "@headlessui/react": "^1.5.0",
     "@mantine/core": "^4.1.0",
+    "@mantine/form": "^4.1.0",
     "@mantine/hooks": "^4.1.0",
     "@mantine/next": "^4.1.0",
     "@mantine/prism": "^4.1.0",
